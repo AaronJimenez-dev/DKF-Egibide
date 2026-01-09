@@ -1,6 +1,7 @@
 import type { User } from "@/interfaces/User";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import router from "@/router";
 
 export const useAuthStore = defineStore('auth', () => {
   const currentUser = ref<User | null>(null);
@@ -20,6 +21,8 @@ export const useAuthStore = defineStore('auth', () => {
 
       token.value = data.token;
       localStorage.setItem('token', data.token);
+
+      router.replace('/');
 
     } catch (error) {
       console.error(error);

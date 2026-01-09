@@ -3,8 +3,7 @@
 </script>
 
 <template>
-  <Header></Header>
-  <h1>Dashboard</h1>
+  <Header/>
 </template>
 
 <style scoped></style>
