@@ -35,7 +35,19 @@ const optionsByRole: Record<string, SidebarOption[]> = {
 
 const sidebarOptions = computed(() => {
   if (!authStore.currentUser) return [];
-  return optionsByRole[authStore.currentUser.role] || [];
+  const role = authStore.currentUser.role.trim().toLowerCase(); // normalizamos
+  switch (role) {
+    case "alumno":
+      return optionsByRole["Alumno"];
+    case "tutor_empresa":
+      return optionsByRole["TutorEmpresa"];
+    case "tutor_egibide":
+      return optionsByRole["TutorCentro"];
+    case "admin":
+      return optionsByRole["Admin"];
+    default:
+      return [];
+  }
 });
 </script>
 
