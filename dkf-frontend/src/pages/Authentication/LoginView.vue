@@ -13,7 +13,7 @@ import { ref } from 'vue';
 
 <template>
   <div class="min-vh-100 d-flex justify-content-center align-items-center">
-    <div class="card shadow-lg p-3" style="width: 25rem;">
+    <div class="card shadow p-3" style="width: 25rem;">
       <img src="@/assets/images/logotipo.png" class="card-img-top" alt="Egibide Logo">
       <div class="card-body">
         <h5 class="card-title text-center mb-3">Iniciar Sesión</h5>
