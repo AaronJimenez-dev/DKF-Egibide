@@ -1,10 +1,11 @@
-import type { Alumno } from "@/interfaces/Alumno";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import type { Alumno } from "@/interfaces/Alumno"
+import { defineStore } from "pinia"
 import { useAuthStore } from "./auth";
+import { ref } from "vue";
 
 export const useAlumnosStore = defineStore("alumnos", () => {
   const alumnos = ref<Alumno[]>([]);
+  const alumno = ref<Alumno[]>([]);
   const authStore = useAuthStore();
 
   const message = ref<string | null>(null);
@@ -31,6 +32,28 @@ export const useAlumnosStore = defineStore("alumnos", () => {
 
     const data = await response.json();
     alumnos.value = data as Alumno[];
+  }
+
+  async function fetchAlumno() {
+    const response = await fetch("http://localhost:8000/api/me/alumno", {
+      method: "GET",
+      headers: {
+        Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+        Accept: "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(
+          data.message || "Error desconocido, inténtalo más tarde",
+          "error",
+        );
+      return false;
+    }
+    
+    alumno.value = Array.isArray(data) ? (data as Alumno[]) : ([data] as Alumno[]);
   }
 
   async function createAlumno(
@@ -63,5 +86,5 @@ export const useAlumnosStore = defineStore("alumnos", () => {
     return true;
   }
 
-  return { alumnos, message, messageType, fetchAlumnos, createAlumno };
+  return { alumnos, alumno, message, messageType, fetchAlumnos, fetchAlumno, createAlumno };
 });

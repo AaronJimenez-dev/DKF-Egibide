@@ -5,8 +5,11 @@ import { useAuthStore } from "./auth";
 
 export const useEmpresasStore = defineStore("empresas", () => {
   const empresas = ref<Empresa[]>([]);
-  const authStore = useAuthStore();
+  const loading = ref(false);
+  const error = ref<string | null>(null);
 
+  const authStore = useAuthStore();
+  
   const message = ref<string | null>(null);
   const messageType = ref<"success" | "error">("success");
 
@@ -22,16 +25,41 @@ export const useEmpresasStore = defineStore("empresas", () => {
 
   async function fetchEmpresas() {
     const response = await fetch("http://localhost:8000/api/empresas", {
-      method: "GET",
-      headers: {
-        Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
-        Accept: "application/json",
-      },
+      headers: authStore.token
+        ? {
+            Authorization: `Bearer ${authStore.token}`,
+            Accept: "application/json",
+          }
+        : {
+            Accept: "application/json",
+          },
     });
 
     const data = await response.json();
     empresas.value = data as Empresa[];
   }
+
+  async function fetchMiEmpresa() {
+      const response = await fetch("http://localhost:8000/api/me/empresa", {
+        headers: authStore.token
+          ? {
+              Authorization: `Bearer ${authStore.token}`,
+              Accept: "application/json",
+            }
+          : {
+              Accept: "application/json",
+            },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(
+          data.message || "Error desconocido, inténtalo más tarde",
+          "error",
+        );
+        return false;
+      }
+      empresas.value = Array.isArray(data) ? (data as Empresa[]) : ([data] as Empresa[]);
+    }
 
   async function createEmpresa(
     nombre: string,
@@ -64,5 +92,5 @@ export const useEmpresasStore = defineStore("empresas", () => {
     return true;
   }
 
-  return { empresas, message, messageType, fetchEmpresas, createEmpresa };
+  return { empresas, message, messageType, fetchEmpresas, createEmpresa, fetchMiEmpresa };
 });
