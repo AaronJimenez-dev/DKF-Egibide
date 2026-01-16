@@ -1,6 +1,5 @@
-import type { Alumno } from "@/interfaces/Alumno";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import type { Alumno } from "@/interfaces/Alumno"
+import { defineStore } from "pinia"
 import { useAuthStore } from "./auth";
 
 export const useAlumnosStore = defineStore("alumnos", () => {
@@ -29,10 +28,34 @@ export const useAlumnosStore = defineStore("alumnos", () => {
       },
     });
 
-    const data = await response.json();
-    alumnos.value = data as Alumno[];
-  }
+      this.loading = true
+      this.error = null
 
+      try {
+        const response = await fetch("http://localhost:8000/api/me/alumno", {
+          method: "GET",
+          headers: {
+            Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+            Accept: "application/json",
+          },
+        })
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}))
+          throw { status: response.status, data: err }
+        }
+
+        const data: Alumno = await response.json()
+        this.Alumno = data
+      } catch (e: any) {
+        this.Alumno = null
+        this.error = e?.data?.message ?? "Error al cargar alumno"
+      } finally {
+        this.loading = false
+      }
+    },
+  },
+})
   async function createAlumno(
     nombre: string,
     apellidos: string,

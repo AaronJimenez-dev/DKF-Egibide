@@ -86,4 +86,27 @@ class AlumnosController extends Controller {
     public function destroy(Alumnos $alumnos) {
         //
     }
+
+    public function me()
+{
+    $userId = auth()->id();
+
+    $row = Alumnos::join('users', 'alumnos.user_id', '=', 'users.id')
+        ->select(
+            'alumnos.nombre',
+            'alumnos.apellidos',
+            'alumnos.telefono',
+            'alumnos.ciudad',
+
+            'users.email',
+        )
+        ->where('alumnos.user_id', $userId)
+        ->first();
+
+    if (!$row) {
+        return response()->json(['message' => 'Alumno no encontrado'], 404);
+    }
+
+    return response()->json($row);
+}
 }

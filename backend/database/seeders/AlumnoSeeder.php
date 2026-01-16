@@ -17,6 +17,7 @@ class AlumnoSeeder extends Seeder
         $userIker = DB::table('users')->where('email', 'iker@demo.com')->value('id');
 
         DB::table('alumnos')->insert([
+        [
             'nombre' => 'Iker',
             'apellidos' => 'Hernaez',
             'telefono' => '600111222',
@@ -24,6 +25,17 @@ class AlumnoSeeder extends Seeder
             'user_id' => $userIker,
             'created_at' => now(),
             'updated_at' => now(),
+        ],
+        [
+            'nombre' => 'Naia',
+            'apellidos' => 'Garrido',
+            'telefono' => '620111222',
+            'ciudad' => 'Vitoria-Gasteiz',
+            'user_id' => '2',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]
         ]);
+        
     }
 }
