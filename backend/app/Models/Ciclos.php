@@ -3,10 +3,40 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ciclos extends Model {
     protected $fillable = [
         'nombre',
-        'id_familia'
+        'familia_profesional_id'
     ];
+
+    /**
+     * Get the familia profesional that owns this ciclo
+     */
+    public function familiaProfesional(): BelongsTo {
+        return $this->belongsTo(FamiliaProfesional::class);
+    }
+
+    /**
+     * Get all cursos for this ciclo
+     */
+    public function cursos(): HasMany {
+        return $this->hasMany(Curso::class);
+    }
+
+    /**
+     * Get all asignaturas for this ciclo
+     */
+    public function asignaturas(): HasMany {
+        return $this->hasMany(Asignatura::class);
+    }
+
+    /**
+     * Get all competencias tec for this ciclo
+     */
+    public function competenciasTec(): HasMany {
+        return $this->hasMany(CompetenciaTec::class);
+    }
 }

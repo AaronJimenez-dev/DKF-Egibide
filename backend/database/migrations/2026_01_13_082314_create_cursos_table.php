@@ -4,32 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('cursos', function (Blueprint $table) {
-            $table->id('id_curso');
+            $table->id();
             $table->integer('numero');
-            $table->unsignedBigInteger('id_ciclo');
+            $table->foreignId('ciclo_id')
+                ->constrained('ciclos')
+                ->restrictOnDelete()->cascadeOnUpdate();
             $table->timestamps();
 
-            $table->foreign('id_ciclo')
-                ->references('id_ciclo')->on('ciclos')
-                ->restrictOnDelete()->cascadeOnUpdate();
-
-            $table->unique(['id_ciclo', 'numero']);
+            $table->unique(['ciclo_id', 'numero']);
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::dropIfExists('cursos');
     }
 };

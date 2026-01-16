@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('empresas', function (Blueprint $table) {
-            $table->id('id_empresa');
+            $table->id();
             $table->string('cif', 20)->unique();
             $table->string('nombre', 150);
             $table->string('telefono', 20)->nullable();

@@ -10,12 +10,11 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('centros', function (Blueprint $table) {
-            $table->id('id_centro');
-            $table->string('nombre', 150);
-            $table->string('calle', 150)->nullable();
+            $table->id();
+            $table->string('nombre');
+            $table->string('calle');
             $table->timestamps();
         });
-        
     }
 
     /**

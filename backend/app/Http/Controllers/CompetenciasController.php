@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompetenciasTec;
-use App\Models\CompetenciasTrans;
+use App\Models\CompetenciaTec;
+use App\Models\CompetenciaTransversal;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class CompetenciasController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        $competenciasTec = CompetenciasTec::all()->map(function ($c) {
+        $competenciasTec = CompetenciaTec::all()->map(function ($c) {
             return [
                 'id' => $c->id,
                 'descripcion' => $c->descripcion,
@@ -20,7 +20,7 @@ class CompetenciasController extends Controller {
             ];
         });
 
-        $competenciasTrans = CompetenciasTrans::all()->map(function ($c) {
+        $competenciasTrans = CompetenciaTransversal::all()->map(function ($c) {
             return [
                 'id' => $c->id,
                 'descripcion' => $c->descripcion,
@@ -47,11 +47,11 @@ class CompetenciasController extends Controller {
      */
     public function storeTecnica(Request $request) {
         $validated = $request->validate([
-            'id_ciclo' => ['required'],
+            'ciclo_id' => ['required'],
             'descripcion' => ['required']
         ]);
 
-        CompetenciasTec::create($validated);
+        CompetenciaTec::create($validated);
 
         return response()->json([
             'success' => true,
@@ -61,11 +61,11 @@ class CompetenciasController extends Controller {
 
     public function storeTransversal(Request $request) {
         $validated = $request->validate([
-            'id_familia' => ['required'],
+            'familia_profesional_id' => ['required'],
             'descripcion' => ['required']
         ]);
 
-        CompetenciasTrans::create($validated);
+        CompetenciaTransversal::create($validated);
 
         return response()->json([
             'success' => true,
@@ -76,28 +76,28 @@ class CompetenciasController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(CompetenciasTec $competencias) {
+    public function show(CompetenciaTec $competencias) {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CompetenciasTec $competencias) {
+    public function edit(CompetenciaTec $competencias) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CompetenciasTec $competencias) {
+    public function update(Request $request, CompetenciaTec $competencias) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompetenciasTec $competencias) {
+    public function destroy(CompetenciaTec $competencias) {
         //
     }
 }

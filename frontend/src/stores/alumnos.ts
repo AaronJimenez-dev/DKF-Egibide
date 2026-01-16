@@ -1,11 +1,12 @@
-import type { Alumno } from "@/interfaces/Alumno"
-import { defineStore } from "pinia"
+import type { Alumno } from "@/interfaces/Alumno";
+import { defineStore } from "pinia";
 import { useAuthStore } from "./auth";
 import { ref } from "vue";
 
 export const useAlumnosStore = defineStore("alumnos", () => {
   const alumnos = ref<Alumno[]>([]);
   const alumno = ref<Alumno[]>([]);
+
   const authStore = useAuthStore();
 
   const message = ref<string | null>(null);
@@ -47,13 +48,15 @@ export const useAlumnosStore = defineStore("alumnos", () => {
 
     if (!response.ok) {
       setMessage(
-          data.message || "Error desconocido, inténtalo más tarde",
-          "error",
-        );
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
       return false;
     }
-    
-    alumno.value = Array.isArray(data) ? (data as Alumno[]) : ([data] as Alumno[]);
+
+    alumno.value = Array.isArray(data)
+      ? (data as Alumno[])
+      : ([data] as Alumno[]);
   }
 
   async function createAlumno(
@@ -86,5 +89,13 @@ export const useAlumnosStore = defineStore("alumnos", () => {
     return true;
   }
 
-  return { alumnos, alumno, message, messageType, fetchAlumnos, fetchAlumno, createAlumno };
+  return {
+    alumnos,
+    alumno,
+    message,
+    messageType,
+    fetchAlumnos,
+    fetchAlumno,
+    createAlumno,
+  };
 });

@@ -10,18 +10,21 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('familias_profesionales', function (Blueprint $table) {
-            $table->id('id_familia');
-            $table->string('nombre', 150);
-            $table->string('codigo_familia', 30)->unique();
-            $table->unsignedBigInteger('id_centro');
-            $table->timestamps();
+            $table->id();
 
-            $table->foreign('id_centro')
-                ->references('id_centro')->on('centros')
-                ->restrictOnDelete()->cascadeOnUpdate();
+            $table->string('nombre');
+            $table->string('codigo_familia', 30)->unique();
+
+            $table->foreignId('centro_id')
+                ->constrained('centros')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->timestamps();
         });
     }
-    
+
+
     /**
      * Reverse the migrations.
      */

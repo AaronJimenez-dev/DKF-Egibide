@@ -8,6 +8,8 @@ use App\Http\Controllers\CompetenciasController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\AlumnosController;
 use App\Http\Controllers\FamiliaProfesionalController;
+use App\Http\Controllers\TutorEgibideController;
+use App\Http\Controllers\TutorEmpresaController;
 
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
@@ -37,4 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/alumnos', [AlumnosController::class, 'index']);
     Route::post('/alumnos', [AlumnosController::class, 'store']);
     Route::get('/me/alumno', [AlumnosController::class, 'me']);
+
+    // Tutor Egibide
+    Route::get('/tutorEgibide/{tutorId}/alumnos', [TutorEgibideController::class, 'getAlumnos']);
+
+    // Tutor Empresa
+    Route::get('/tutorEmpresa/{tutorId}/alumnos', [TutorEmpresaController::class, 'getAlumnosByInstructor']);
 });
