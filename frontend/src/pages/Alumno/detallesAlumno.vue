@@ -26,13 +26,6 @@ const store = computed(() =>
 );
 
 onMounted(async () => {
-  console.log("=== DEBUG DetalleAlumno ===");
-  console.log("alumnoId:", alumnoId, typeof alumnoId);
-  console.log("tipoTutor:", tipoTutor);
-  console.log("tutorId:", tutorId);
-  console.log("store actual:", store.value);
-  console.log("alumnosAsignados en store:", store.value.alumnosAsignados);
-
   try {
     isLoading.value = true;
 
@@ -41,21 +34,14 @@ onMounted(async () => {
       !store.value.alumnosAsignados ||
       store.value.alumnosAsignados.length === 0
     ) {
-      console.log("No hay alumnos en store, cargando...");
       await store.value.fetchAlumnosAsignados(tutorId);
-      console.log("Alumnos cargados:", store.value.alumnosAsignados);
     }
 
     // Buscar el alumno (comparando números)
     alumno.value =
       store.value.alumnosAsignados.find((a: Alumno) => {
-        console.log(
-          `Comparando: ${a.id} (${typeof a.id}) === ${alumnoId} (${typeof alumnoId})`,
-        );
         return Number(a.id) === alumnoId;
       }) || null;
-
-    console.log("Alumno encontrado:", alumno.value);
 
     if (!alumno.value) {
       error.value = "Alumno no encontrado";
@@ -67,7 +53,6 @@ onMounted(async () => {
       "Error al cargar los datos del alumno: " + (err as Error).message;
   } finally {
     isLoading.value = false;
-    console.log("=== FIN DEBUG ===");
   }
 });
 
@@ -212,7 +197,7 @@ const formatDate = (dateString: string) => {
 
       <!-- Acciones principales -->
       <div class="row g-3">
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="tipoTutor === 'empresa'">
           <div
             class="card h-100 action-card"
             @click="irACompetencias"
@@ -234,7 +219,7 @@ const formatDate = (dateString: string) => {
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="tipoTutor === 'empresa'">
           <div
             class="card h-100 action-card"
             @click="irACalificacion"
@@ -255,6 +240,8 @@ const formatDate = (dateString: string) => {
             </div>
           </div>
         </div>
+
+        <!-- Tutor egibide -->
       </div>
     </div>
   </div>

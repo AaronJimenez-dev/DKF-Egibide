@@ -49,10 +49,9 @@ onMounted(async () => {
 });
 
 const verDetalleAlumno = (alumnoId: number) => {
-  console.log("Navegando a alumno:", alumnoId, "tipo:", typeof alumnoId);
   router.push({
     name: "DetalleAlumno",
-    params: { alumnoId: alumnoId.toString() }, // Vue Router necesita strings en params
+    params: { alumnoId: alumnoId.toString() },
     query: {
       tipoTutor: props.tipoTutor,
       tutorId: props.tutorId,
@@ -165,10 +164,12 @@ const verDetalleAlumno = (alumnoId: number) => {
   cursor: pointer;
   transition: all 0.2s ease;
   border-left: 3px solid transparent;
+  border-radius: 0.5rem;
 }
 
 .hover-card:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bs-primary);
+  color: white;
   border-left-color: #667eea;
   transform: translateX(5px);
 }

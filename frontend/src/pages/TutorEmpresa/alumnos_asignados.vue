@@ -10,7 +10,7 @@ const tutorId = authStore.currentUser.id;
 <template>
   <h2>ALUMNOS ASIGNADOS</h2>
   <hr />
-  <AlumnosAsignados tipoTutor="empresa" :tutorId="tutorId.toString" />
+  <AlumnosAsignados tipoTutor="empresa" :tutorId="tutorId.toString()" />
 </template>
 
 <style scoped></style>
