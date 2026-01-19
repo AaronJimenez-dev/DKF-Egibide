@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Alumnos;
 
 class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -17,6 +18,7 @@ class User extends Authenticatable {
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -35,7 +37,7 @@ class User extends Authenticatable {
      * Get the alumno associated with this user
      */
     public function alumno(): HasOne {
-        return $this->hasOne(Alumnos::class);
+        return $this->hasOne(Alumnos::class,'user_id','id');
     }
 
     /**

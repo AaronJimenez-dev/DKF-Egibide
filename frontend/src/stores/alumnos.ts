@@ -6,6 +6,8 @@ import { ref } from "vue";
 export const useAlumnosStore = defineStore("alumnos", () => {
   const alumnos = ref<Alumno[]>([]);
   const alumno = ref<Alumno[]>([]);
+  const notaCuaderno = ref<number | null>(null);
+  const notaCuadernoMsg = ref<string | null>(null);
 
   const authStore = useAuthStore();
 
@@ -59,6 +61,33 @@ export const useAlumnosStore = defineStore("alumnos", () => {
       : ([data] as Alumno[]);
   }
 
+   async function fetchNotaCuaderno() {
+    const response = await fetch("http://localhost:8000/api/me/nota-cuaderno", {
+      method: "GET",
+      headers: {
+        Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+        Accept: "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
+      notaCuaderno.value = null;
+      notaCuadernoMsg.value = null;
+      return false;
+    }
+
+    notaCuaderno.value = data.nota ?? null;
+    notaCuadernoMsg.value = data.message ?? null;
+
+    return true;
+  }
+
   async function createAlumno(
     nombre: string,
     apellidos: string,
@@ -92,10 +121,13 @@ export const useAlumnosStore = defineStore("alumnos", () => {
   return {
     alumnos,
     alumno,
+    notaCuaderno,
+    notaCuadernoMsg,
     message,
     messageType,
     fetchAlumnos,
     fetchAlumno,
+    fetchNotaCuaderno,
     createAlumno,
   };
 });

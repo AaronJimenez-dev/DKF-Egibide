@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Estancia;
 
 class Alumnos extends Model {
     protected $fillable = [
@@ -26,7 +27,7 @@ class Alumnos extends Model {
      * Get all estancias for this alumno
      */
     public function estancias(): HasMany {
-        return $this->hasMany(Estancia::class);
+        return $this->hasMany(Estancia::class,'alumno_id','id');
     }
 
     /**

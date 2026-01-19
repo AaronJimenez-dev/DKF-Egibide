@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\NotaCuaderno;
 
 class CuadernoPracticas extends Model {
   protected $table = 'cuadernos_practicas';
@@ -33,6 +34,6 @@ class CuadernoPracticas extends Model {
    * Get the nota for this cuaderno
    */
   public function nota() {
-    return $this->hasOne(NotaCuaderno::class);
+    return $this->hasOne(NotaCuaderno::class, 'cuaderno_practicas_id','id');
   }
 }

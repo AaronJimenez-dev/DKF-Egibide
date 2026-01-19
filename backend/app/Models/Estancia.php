@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\CuadernoPracticas;
 
 class Estancia extends Model {
     protected $table = 'estancias';
@@ -94,6 +95,6 @@ class Estancia extends Model {
      * Get the cuaderno practicas for this estancia
      */
     public function cuadernoPracticas(): HasOne {
-        return $this->hasOne(CuadernoPracticas::class);
+        return $this->hasOne(CuadernoPracticas::class,'estancia_id','id');
     }
 }

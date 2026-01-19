@@ -108,4 +108,36 @@ class AlumnosController extends Controller {
 
         return response()->json($row);
     }
+    public function notaCuadernoLogeado()
+{
+    $user = auth()->user();
+    if (!$user) return response()->json(['message' => 'No autenticado'], 401);
+
+    $alumno = $user->alumno;
+    if (!$alumno) {
+        return response()->json(['nota' => null, 'message' => 'Sin alumno asociado'], 200);
+    }
+
+    $estancia = $alumno->estancias()->orderByDesc('fecha_fin')->first();
+    if (!$estancia) {
+        return response()->json(['nota' => null, 'message' => 'No hay estancia para este alumno todavía.'], 200);
+    }
+
+    if ($estancia->fecha_fin && $estancia->fecha_fin > now()->toDateString()) {
+        return response()->json(['nota' => null, 'message' => 'La estancia aún no ha finalizado.'], 200);
+    }
+
+    $cuaderno = $estancia->cuadernoPracticas;
+    if (!$cuaderno) {
+        return response()->json(['nota' => null, 'message' => 'No hay cuaderno asociado.'], 200);
+    }
+    \Log::info('Cuaderno ID', ['id' => $cuaderno->id]);
+    \Log::info('Nota relation raw', ['nota' => $cuaderno->nota]);
+    $nota = $cuaderno->nota?->nota;
+
+    return response()->json([
+        'nota' => $nota !== null ? (float) $nota : null,
+        'message' => $nota === null ? 'La estancia ha finalizado, pero aún no hay nota del cuaderno.' : null
+    ], 200);
+}
 }

@@ -66,8 +66,8 @@ class EmpresasController extends Controller {
         $userId = auth()->id();
 
         $empresa = DB::table('alumnos')
-            ->join('estancias', 'alumnos.id_alumno', '=', 'estancias.id_alumno')
-            ->join('empresas', 'estancias.id_empresa', '=', 'empresas.id_empresa')
+            ->join('estancias', 'alumnos.id', '=', 'estancias.alumno_id')
+            ->join('empresas', 'estancias.empresa_id', '=', 'empresas.id')
             ->where('alumnos.user_id', $userId)
             ->select(
                 'empresas.cif',
