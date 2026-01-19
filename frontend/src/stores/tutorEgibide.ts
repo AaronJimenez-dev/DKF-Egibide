@@ -25,7 +25,7 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
     const response = await fetch(
       `http://localhost:8000/api/tutorEgibide/${tutorId}/alumnos`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
           Accept: "application/json",

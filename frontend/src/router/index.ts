@@ -1,3 +1,4 @@
+import DetallesAlumno from "@/pages/Alumno/detallesAlumno.vue";
 import LoginView from "@/pages/Authentication/LoginView.vue";
 import DashboardView from "@/pages/DashboardView.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -24,7 +25,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Alumno/inicio.vue"),
           },
-          meta: { role: "alumno" }
+          meta: { role: "alumno" },
+        },
+        {
+          path: "alumno/informacion",
+          name: "alumno-informacion",
+          components: {
+            main: () => import("@/pages/Alumno/informacion.vue"),
+          },
+          meta: { role: "alumno" },
         },
         {
           path: "alumno/mis-datos",
@@ -32,7 +41,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Alumno/misDatosView.vue"),
           },
-          meta: { role: "alumno" }
+          meta: { role: "alumno" },
         },
         {
           path: "alumno/empresa",
@@ -40,7 +49,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Alumno/empresa.vue"),
           },
-          meta: { role: "alumno" }
+          meta: { role: "alumno" },
         },
         {
           path: "alumno/seguimiento",
@@ -48,7 +57,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Alumno/seguimiento.vue"),
           },
-          meta: { role: "alumno" }
+          meta: { role: "alumno" },
         },
         {
           path: "alumno/calificacion",
@@ -56,7 +65,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Alumno/calificacion.vue"),
           },
-          meta: { role: "alumno" }
+          meta: { role: "alumno" },
         },
         // Grupo de rutas para Tutores
         {
@@ -65,7 +74,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/inicio.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
+        },
+        {
+          path: "tutor-egibide/informacion",
+          name: "tutor_egibide-informacion",
+          components: {
+            main: () => import("@/pages/TutorEgibide/informacion.vue"),
+          },
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/alumnos",
@@ -73,7 +90,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/alumnos.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/empresas",
@@ -81,7 +98,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/empresas.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/alumno-empresa",
@@ -89,7 +106,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/alumno_empresa.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/horario-calendario",
@@ -97,7 +114,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/horario_calendario.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
+        },
+        {
+          path: "tutor-egibide/seguimiento",
+          name: "tutor_egibide-seguimiento",
+          components: {
+            main: () => import("@/pages/TutorEgibide/seguimiento.vue"),
+          },
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/general",
@@ -105,7 +130,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/general.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
         },
         {
           path: "tutor-egibide/cuaderno",
@@ -113,7 +138,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEgibide/cuaderno.vue"),
           },
-          meta: { role: "tutor_egibide" }
+          meta: { role: "tutor_egibide" },
+        },
+        {
+          path: "tutor-egibide/competencias",
+          name: "tutor_egibide-competencias",
+          components: {
+            main: () => import("@/pages/TutorEgibide/competencias.vue"),
+          },
+          meta: { role: "tutor_egibide" },
         },
         // Grupo de rutas para Empresas
         {
@@ -122,7 +155,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEmpresa/inicio.vue"),
           },
-          meta: { role: "tutor_empresa" }
+          meta: { role: "tutor_empresa" },
+        },
+        {
+          path: "tutor-empresa/informacion",
+          name: "tutor-empresa-informacion",
+          components: {
+            main: () => import("@/pages/TutorEmpresa/informacion.vue"),
+          },
+          meta: { role: "tutor_empresa" },
         },
         {
           path: "tutor-empresa/alumnos-asignados",
@@ -130,15 +171,22 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEmpresa/alumnos_asignados.vue"),
           },
-          meta: { role: "tutor_empresa" }
+          meta: { role: "tutor_empresa" },
         },
         {
-          path: "tutor-empresa/competencias",
+          name: "tutor_empresa-detalle_alumno",
+          path: "tutor-empresa/alumnos-asignados/:alumnoId",
+          components: {
+            main: () => import("@/pages/Alumno/detallesAlumno.vue"),
+          },
+        },
+        {
+          path: "tutor-empresa/alumnos-asignados/:alumnoId/competencias",
           name: "tutor_empresa-competencias",
           components: {
             main: () => import("@/pages/TutorEmpresa/competencias.vue"),
           },
-          meta: { role: "tutor_empresa" }
+          meta: { role: "tutor_empresa" },
         },
         {
           path: "tutor-empresa/calificacion",
@@ -146,8 +194,9 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/TutorEmpresa/calificacion.vue"),
           },
-          meta: { role: "tutor_empresa" }
+          meta: { role: "tutor_empresa" },
         },
+
         // Grupo de rutas para Admin
         {
           path: "admin/inicio",
@@ -155,7 +204,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/inicio.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
+        },
+        {
+          path: "admin/informacion",
+          name: "admin-informacion",
+          components: {
+            main: () => import("@/pages/Admin/informacion.vue"),
+          },
+          meta: { role: "admin" },
         },
         {
           path: "admin/ciclos",
@@ -163,7 +220,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/ciclos.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/competencias",
@@ -171,7 +228,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/competencias.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/empresas",
@@ -179,7 +236,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/empresas.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/alumnos",
@@ -187,7 +244,15 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/alumnos.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
+        },
+        {
+          path: "admin/agregar",
+          name: "admin-agregar",
+          components: {
+            main: () => import("@/pages/Admin/agregar.vue"),
+          },
+          meta: { role: "admin" },
         },
         {
           path: "admin/nuevo-ciclo",
@@ -195,7 +260,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/añadir_ciclos.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/nueva-competencia",
@@ -203,7 +268,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/añadir_competencias.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/nueva-empresa",
@@ -211,7 +276,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/añadir_empresas.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
         {
           path: "admin/nuevo-alumno",
@@ -219,7 +284,7 @@ const router = createRouter({
           components: {
             main: () => import("@/pages/Admin/añadir_alumnos.vue"),
           },
-          meta: { role: "admin" }
+          meta: { role: "admin" },
         },
       ],
     },
@@ -271,6 +336,5 @@ router.beforeEach(async (to) => {
     }
   }
 });
-
 
 export default router;

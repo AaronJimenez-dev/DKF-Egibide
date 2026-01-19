@@ -11,15 +11,8 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('familias_profesionales', function (Blueprint $table) {
             $table->id();
-
             $table->string('nombre');
             $table->string('codigo_familia', 30)->unique();
-
-            $table->foreignId('centro_id')
-                ->constrained('centros')
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
             $table->timestamps();
         });
     }

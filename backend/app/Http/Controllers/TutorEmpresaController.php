@@ -21,15 +21,15 @@ class TutorEmpresaController extends Controller {
         //
     }
 
-    public function getAlumnosByInstructor($instructorId) {
-        $alumnos = TutorEmpresa::findOrFail($instructorId)
-            ->alumnosConEstancia()
-            ->get();
+    public function getAlumnosByCurrentInstructor(Request $request) {
+        $userId = $request->user()->id;
+
+        $instructor = TutorEmpresa::where('user_id', $userId)->firstOrFail();
+
+        $alumnos = $instructor->alumnosConEstancia()->get();
 
         return response()->json($alumnos);
     }
-
-
 
 
     /**
@@ -65,5 +65,19 @@ class TutorEmpresaController extends Controller {
      */
     public function destroy(TutorEmpresa $tutorEmpresa) {
         //
+    }
+
+    public function me(Request $request) {
+        $user = $request->user();
+
+        $tutor = TutorEmpresa::where('user_id', $user->id)->first();
+
+        return response()->json([
+            'id' => $tutor->id,
+            'nombre' => $tutor->nombre,
+            'apellidos' => $tutor->apellidos,
+            'email' => $user->email,
+            'tipo' => $user->tipo,
+        ]);
     }
 }

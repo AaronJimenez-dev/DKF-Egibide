@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Competencias
     Route::get('/competencias', [CompetenciasController::class, 'index']);
+    Route::get('/competenciasTecnicas/alumno/{alumno_id}', [CompetenciasController::class, 'getCompetenciasTecnicasByAlumno']);
+    Route::post('/competenciasTecnicas/asignar', [CompetenciasController::class, 'storeCompetenciasTecnicasAsignadas']);
     Route::post('/competencia/tecnica', [CompetenciasController::class, 'storeTecnica']);
     Route::post('/competencia/transversal', [CompetenciasController::class, 'storeTransversal']);
 
@@ -43,10 +45,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me/nota-cuaderno', [AlumnosController::class, 'notaCuadernoLogeado']);
 
     // Tutor Egibide
-    Route::get('/tutorEgibide/{tutorId}/alumnos', [TutorEgibideController::class, 'getAlumnos']);
+    Route::get('/tutorEgibide/{tutorId}/alumnos', [TutorEgibideController::class, 'getAlumnosByCurrentTutor']);
+    Route::get('/me/tutor-egibide', [TutorEgibideController::class, 'me']);
 
     // Tutor Empresa
-    Route::get('/tutorEmpresa/{tutorId}/alumnos', [TutorEmpresaController::class, 'getAlumnosByInstructor']);
+    Route::get('/tutorEmpresa/{tutorId}/alumnos', [TutorEmpresaController::class, 'getAlumnosByCurrentInstructor']);
+    Route::get('/me/tutor-empresa', [TutorEmpresaController::class, 'me']);
 
     // Seguimientos
     Route::get('/seguimientos', [SeguimientosController::class, 'index']);

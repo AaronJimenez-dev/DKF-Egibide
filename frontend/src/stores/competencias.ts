@@ -36,6 +36,22 @@ export const useCompetenciasStore = defineStore("competencias", () => {
     competencias.value = data as Competencia[];
   }
 
+  async function fetchCompetenciasTecnicasByAlumno(alumno_id: number) {
+    const response = await fetch(
+      `http://localhost:8000/api/competenciasTecnicas/alumno/${alumno_id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+    competencias.value = data as Competencia[];
+  }
+
   async function createCompetenciaTecnica(
     ciclo_id: number,
     descripcion: string,
@@ -99,12 +115,48 @@ export const useCompetenciasStore = defineStore("competencias", () => {
     return true;
   }
 
+  async function asignarCompetenciasTecnica(
+    alumno_id: number,
+    competencias: number[],
+  ) {
+    const response = await fetch(
+      "http://localhost:8000/api/competenciasTecnicas/asignar",
+      {
+        method: "POST",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ alumno_id, competencias }),
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
+      return false;
+    }
+
+    setMessage(
+      data.message || "Competencia técnica asignada correctamente",
+      "success",
+    );
+    return true;
+  }
+
   return {
     competencias,
     message,
     messageType,
     fetchCompetencias,
+    fetchCompetenciasTecnicasByAlumno,
     createCompetenciaTecnica,
     createCompetenciaTransversal,
+    asignarCompetenciasTecnica,
   };
 });

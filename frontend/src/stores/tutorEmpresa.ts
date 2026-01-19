@@ -1,4 +1,3 @@
-import type { Alumno } from "@/interfaces/Alumno";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useAuthStore } from "./auth";

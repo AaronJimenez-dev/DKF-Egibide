@@ -29,7 +29,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Información</h3>
+        <h3>
+          <RouterLink to="/alumno/informacion" class="sidebar-title"
+            >Información</RouterLink
+          >
+        </h3>  
         <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/alumno/mis-datos" class="sidebar-item"
@@ -72,7 +76,12 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Información</h3>
+        <h3>
+          <RouterLink to="/tutor-egibide/informacion" class="sidebar-title"
+            >Información</RouterLink
+          >
+        </h3>
+
         <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/tutor-egibide/alumnos" class="sidebar-item"
@@ -99,7 +108,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Información</h3>
+        <h3>
+          <RouterLink to="/tutor-empresa/informacion" class="sidebar-title"
+            >Información</RouterLink
+          >
+        </h3>  
         <ul class="list-unstyled mb-0">
           <li>
             <RouterLink
@@ -109,22 +122,6 @@ export default {
             >
           </li>
         </ul>
-      </div>
-
-      <div class="sidebar-section">
-        <h3>
-          <RouterLink to="/tutor-empresa/competencias" class="sidebar-title"
-            >Competencias</RouterLink
-          >
-        </h3>
-      </div>
-
-      <div class="sidebar-section">
-        <h3>
-          <RouterLink to="/tutor-empresa/calificacion" class="sidebar-title"
-            >Calificación</RouterLink
-          >
-        </h3>
       </div>
     </nav>
 
@@ -139,8 +136,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Información</h3>
-        <ul class="list-unstyled mb-0">
+        <h3>
+          <RouterLink to="/admin/informacion" class="sidebar-title"
+            >Información</RouterLink
+          >
+        </h3>        <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/admin/ciclos" class="sidebar-item"
               >Ciclos</RouterLink
@@ -165,8 +165,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Agregar</h3>
-        <ul class="list-unstyled mb-0">
+        <h3>
+          <RouterLink to="/admin/agregar" class="sidebar-title"
+            >Agregar</RouterLink
+          >
+        </h3>          <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/admin/nuevo-ciclo" class="sidebar-item"
               >Ciclo</RouterLink

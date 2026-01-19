@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('notas_competencia_tec', function (Blueprint $table) {
             $table->id();
-            $table->decimal('nota', 4, 2);
+            $table->decimal('nota', 4, 2)->nullable();
             $table->foreignId('competencia_tec_id')
                 ->constrained('competencias_tec')
                 ->cascadeOnDelete()->cascadeOnUpdate();

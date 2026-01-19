@@ -9,7 +9,18 @@ use Illuminate\Support\Facades\DB;
 class CompetenciaTecSeeder extends Seeder {
     public function run(): void {
         DB::table('competencias_tec')->insert([
-            ['descripcion' => 'Programación backend (Laravel/PHP)', 'ciclo_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            [
+                'descripcion' => 'Programación backend (Laravel/PHP)',
+                'ciclo_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'descripcion' => 'Programación fronend (Vue/JS)',
+                'ciclo_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ]);
     }
 }

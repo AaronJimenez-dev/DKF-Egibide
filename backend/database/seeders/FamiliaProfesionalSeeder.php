@@ -12,7 +12,6 @@ class FamiliaProfesionalSeeder extends Seeder {
             [
                 'nombre' => 'Informática y Comunicaciones',
                 'codigo_familia' => 'IFC',
-                'centro_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

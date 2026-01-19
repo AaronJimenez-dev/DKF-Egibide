@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CompetenciaTec;
 use App\Models\CompetenciaTransversal;
-
+use App\Models\Estancia;
+use App\Models\NotaCompetenciaTec;
 use Illuminate\Http\Request;
 
 class CompetenciasController extends Controller {
@@ -35,11 +36,14 @@ class CompetenciasController extends Controller {
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {
-        //
+    public function getCompetenciasTecnicasByAlumno($alumno_id) {
+        $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
+
+        $competenciasTec = CompetenciaTec::whereHas('ciclo', function ($query) use ($estancia) {
+            $query->where('ciclo_id', $estancia->curso->ciclo_id);
+        })->get();
+
+        return response()->json($competenciasTec);
     }
 
     /**
@@ -73,31 +77,27 @@ class CompetenciasController extends Controller {
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CompetenciaTec $competencias) {
-        //
-    }
+    public function storeCompetenciasTecnicasAsignadas(Request $request) {
+        $validated = $request->validate([
+            'alumno_id' => ['required', 'integer'],
+            'competencias' => ['required', 'array'],
+            'competencias.*' => ['integer']
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CompetenciaTec $competencias) {
-        //
-    }
+        $alumno_id = $validated['alumno_id'];
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CompetenciaTec $competencias) {
-        //
-    }
+        $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CompetenciaTec $competencias) {
-        //
+        foreach ($validated['competencias'] as $compenciaId) {
+            NotaCompetenciaTec::create([
+                'estancia_id' => $estancia->id,
+                'competencia_tec_id' => $compenciaId,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Competencias técnicas asignadas correctamente'
+        ], 201);
     }
 }

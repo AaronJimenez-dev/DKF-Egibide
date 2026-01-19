@@ -13,8 +13,8 @@ class CentroSeeder extends Seeder {
      */
     public function run(): void {
         DB::table('centros')->updateOrInsert(
-            ['nombre' => 'Egibide Arriaga'],
             [
+                'nombre' => 'Egibide Arriaga',
                 'calle' => 'Arriaga, Vitoria-Gasteiz',
                 'updated_at' => now(),
                 'created_at' => now(),

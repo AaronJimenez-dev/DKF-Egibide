@@ -8,36 +8,36 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CompetenciaTec extends Model {
-  protected $table = 'competencias_tec';
+    protected $table = 'competencias_tec';
 
-  protected $fillable = [
-    'descripcion',
-    'ciclo_id',
-  ];
+    protected $fillable = [
+        'ciclo_id',
+        'descripcion'
+    ];
 
-  /**
-   * Get the ciclo that owns this competencia tec
-   */
-  public function ciclo(): BelongsTo {
-    return $this->belongsTo(Ciclos::class);
-  }
+    /**
+     * Get the ciclo that owns this competencia tec
+     */
+    public function ciclo(): BelongsTo {
+        return $this->belongsTo(Ciclos::class);
+    }
 
-  /**
-   * Get all resultados aprendizaje that have this competencia tec
-   */
-  public function resultadosAprendizaje(): BelongsToMany {
-    return $this->belongsToMany(
-      ResultadoAprendizaje::class,
-      'competencia_tec_ra',
-      'competencia_tec_id',
-      'resultado_aprendizaje_id'
-    );
-  }
+    /**
+     * Get all resultados aprendizaje that have this competencia tec
+     */
+    public function resultadosAprendizaje(): BelongsToMany {
+        return $this->belongsToMany(
+            ResultadoAprendizaje::class,
+            'competencia_tec_ra',
+            'competencia_tec_id',
+            'resultado_aprendizaje_id'
+        );
+    }
 
-  /**
-   * Get all notas competencia tec for this competencia
-   */
-  public function notasCompetenciaTec(): HasMany {
-    return $this->hasMany(NotaCompetenciaTec::class);
-  }
+    /**
+     * Get all notas competencia tec for this competencia
+     */
+    public function notasCompetenciaTec(): HasMany {
+        return $this->hasMany(NotaCompetenciaTec::class);
+    }
 }

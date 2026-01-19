@@ -6,18 +6,17 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
+class DatabaseSeeder extends Seeder {
     use WithoutModelEvents;
 
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
+    public function run(): void {
         $this->call([
             CentroSeeder::class,
             FamiliaProfesionalSeeder::class,
+            CentroFamiliaProfesionalSeeder::class,
             CicloSeeder::class,
             CursoSeeder::class,
 
