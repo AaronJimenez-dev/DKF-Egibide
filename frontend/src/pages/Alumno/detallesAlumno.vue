@@ -65,9 +65,8 @@ const irACompetencias = () => {
 
 const irACalificacion = () => {
   router.push({
-    name: "CalificacionAlumno",
+    name: "tutor_empresa-calificacion",
     params: { alumnoId: alumnoId },
-    query: { tipoTutor: tipoTutor, tutorId: tutorId },
   });
 };
 
