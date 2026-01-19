@@ -175,6 +175,14 @@ const router = createRouter({
           meta: { role: "admin" },
         },
         {
+          path: "admin/informacion",
+          name: "admin-informacion",
+          components: {
+            main: () => import("@/pages/Admin/informacion.vue"),
+          },
+          meta: { role: "admin" },
+        },
+        {
           path: "admin/ciclos",
           name: "admin-ciclos",
           components: {
@@ -203,6 +211,14 @@ const router = createRouter({
           name: "admin-alumnos",
           components: {
             main: () => import("@/pages/Admin/alumnos.vue"),
+          },
+          meta: { role: "admin" },
+        },
+        {
+          path: "admin/agregar",
+          name: "admin-agregar",
+          components: {
+            main: () => import("@/pages/Admin/agregar.vue"),
           },
           meta: { role: "admin" },
         },

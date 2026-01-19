@@ -128,8 +128,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Información</h3>
-        <ul class="list-unstyled mb-0">
+        <h3>
+          <RouterLink to="/admin/informacion" class="sidebar-title"
+            >Información</RouterLink
+          >
+        </h3>        <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/admin/ciclos" class="sidebar-item"
               >Ciclos</RouterLink
@@ -154,8 +157,11 @@ export default {
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Agregar</h3>
-        <ul class="list-unstyled mb-0">
+        <h3>
+          <RouterLink to="/admin/agregar" class="sidebar-title"
+            >Agregar</RouterLink
+          >
+        </h3>          <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/admin/nuevo-ciclo" class="sidebar-item"
               >Ciclo</RouterLink
