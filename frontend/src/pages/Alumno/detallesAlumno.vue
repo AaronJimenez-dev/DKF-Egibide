@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { Alumno } from "@/interfaces/Alumno";
+import type { Empresa } from "@/interfaces/Empresa";
+import { useEmpresasStore } from "@/stores/empresas";
 import { useTutorEgibideStore } from "@/stores/tutorEgibide";
 import { useTutorEmpresaStore } from "@/stores/tutorEmpresa";
 import { ref, onMounted, computed } from "vue";
@@ -10,8 +12,10 @@ const router = useRouter();
 
 const tutorEgibideStore = useTutorEgibideStore();
 const tutorEmpresaStore = useTutorEmpresaStore();
+const empresaStore = useEmpresasStore();
 
 const alumno = ref<Alumno | null>(null);
+const empresa = ref<Empresa | null>(null);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 
@@ -29,28 +33,32 @@ onMounted(async () => {
   try {
     isLoading.value = true;
 
-    // Si no hay alumnos en el store, cargarlos
-    if (
-      !store.value.alumnosAsignados ||
-      store.value.alumnosAsignados.length === 0
-    ) {
+    if (!store.value.alumnosAsignados || store.value.alumnosAsignados.length === 0) {
       await store.value.fetchAlumnosAsignados(tutorId);
     }
 
-    // Buscar el alumno (comparando números)
     alumno.value =
-      store.value.alumnosAsignados.find((a: Alumno) => {
-        return Number(a.id) === alumnoId;
-      }) || null;
+      store.value.alumnosAsignados.find((a: Alumno) => Number(a.id) === alumnoId) || null;
 
     if (!alumno.value) {
       error.value = "Alumno no encontrado";
-      console.error("No se encontró el alumno con ID:", alumnoId);
+      return;
     }
+
+    if (!empresaStore.empresas || empresaStore.empresas.length === 0) {
+      await empresaStore.fetchEmpresas(); // Cambiar a fetch por ciclos
+    }
+
+    empresa.value =
+      empresaStore.empresas.find((e: Empresa) => Number(e.id) === alumno.value?.pivot?.empresa_id) || null;
+
+    if (!empresa.value) {
+      console.warn("No se encontró la empresa con ID:", alumno.value?.pivot?.empresa_id);
+    }
+
   } catch (err) {
-    console.error("Error al cargar alumno:", err);
-    error.value =
-      "Error al cargar los datos del alumno: " + (err as Error).message;
+    console.error("Error al cargar alumno o empresas:", err);
+    error.value = "Error al cargar los datos del alumno";
   } finally {
     isLoading.value = false;
   }
@@ -75,7 +83,6 @@ const irAsignarEmpresa = () => {
   router.push({
     name: "tutor_egibide-alumno_empresa",
     params: { alumnoId: alumnoId },
-    query: { tipoTutor: tipoTutor, tutorId: tutorId },
   });
 };
 
@@ -195,6 +202,13 @@ const formatDate = (dateString: string) => {
                 <strong class="ms-2">{{ alumno.ciudad }}</strong>
               </div>
             </div>
+            <div class="col-md-6" v-if="alumno.pivot?.empresa_id">
+              <div class="info-item">
+                <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                <span class="text-muted">Empresa:</span>
+                <strong class="ms-2">{{ empresa?.nombre }}</strong>
+              </div>
+            </div>
             <div class="col-md-6" v-if="alumno.pivot?.puesto">
               <div class="info-item">
                 <i class="bi bi-briefcase-fill text-primary me-2"></i>
@@ -210,7 +224,7 @@ const formatDate = (dateString: string) => {
               </div>
             </div>
             <div
-              class="col-12"
+              class="col-md-6"
               v-if="alumno.pivot?.fecha_inicio && alumno.pivot?.fecha_fin"
             >
               <div class="info-item">

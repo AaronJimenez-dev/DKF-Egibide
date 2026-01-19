@@ -92,5 +92,41 @@ export const useEmpresasStore = defineStore("empresas", () => {
     return true;
   }
 
-  return { empresas, message, messageType, fetchEmpresas, createEmpresa, fetchMiEmpresa };
+  async function asignarEmpresa(
+    alumno_id: number,
+    empresa_id: number[],
+  ) {
+    const response = await fetch(
+      "http://localhost:8000/api/empresas/asignar",
+      {
+        method: "POST",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ alumno_id, empresa_id }),
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
+      return false;
+    }
+
+    setMessage(
+      data.message || "Empresa asignada correctamente",
+      "success",
+    );
+    return true;
+  }
+
+  return { empresas, message, messageType, fetchEmpresas, createEmpresa, fetchMiEmpresa, asignarEmpresa };
 });
+
+  

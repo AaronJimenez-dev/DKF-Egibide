@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresas;
+use App\Models\Estancia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -89,5 +90,26 @@ class EmpresasController extends Controller {
      */
     public function destroy(Empresas $empresas) {
         //
+    }
+
+    public function storeEmpresaAsignada(Request $request) {
+        $validated = $request->validate([
+            'alumno_id' => ['required', 'integer'],
+            'empresa_id' => ['required', 'integer'],
+        ]);
+
+        $alumno_id = $validated['alumno_id'];
+        $empresa_id = $validated['empresa_id'];
+
+        $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
+
+        $estancia->update([
+            'empresa_id' => $empresa_id,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Empresa asignada correctamente a la estancia',
+        ], 200);
     }
 }
