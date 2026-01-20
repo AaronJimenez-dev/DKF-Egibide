@@ -116,6 +116,13 @@ const irCompetencias = () => {
   });
 };
 
+const irCalificacionesEgibide = () => {
+  router.push({
+    name: "tutor_egibide-calificaciones",
+    params: { alumnoId: alumnoId },
+  });
+};
+
 const volver = () => {
   router.back();
 };
@@ -311,6 +318,7 @@ const formatDate = (dateString: string) => {
             </div>
           </div>
         </div>
+        <!-- Boton horario y calendario -->
         <div class="col-md" v-if="tipoTutor === 'egibide'">
           <div
             class="card h-100 action-card"
@@ -329,6 +337,7 @@ const formatDate = (dateString: string) => {
             </div>
           </div>
         </div>
+        <!-- Boton seguimiento -->
         <div class="col-md" v-if="tipoTutor === 'egibide'">
           <div
             class="card h-100 action-card"
@@ -347,6 +356,7 @@ const formatDate = (dateString: string) => {
             </div>
           </div>
         </div>
+        <!-- Boton competencias -->
         <div class="col-md" v-if="tipoTutor === 'egibide'">
           <div
             class="card h-100 action-card"
@@ -356,9 +366,28 @@ const formatDate = (dateString: string) => {
           >
             <div class="card-body text-center p-4">
               <div class="icon-wrapper mb-3">
-                <i class="bi bi-eye display-4 text-primary"></i>
+                <i class="bi bi-list-check display-4 text-primary"></i>
               </div>
-              <h5 class="card-title">Visualizar competencias</h5>
+              <h5 class="card-title">Competencias</h5>
+              <div class="mt-3">
+                <i class="bi bi-arrow-right-circle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Boton Calificaciones -->
+        <div class="col-md" v-if="tipoTutor === 'egibide'">
+          <div
+            class="card h-100 action-card"
+            @click="irCalificacionesEgibide"
+            role="button"
+            tabindex="0"
+          >
+            <div class="card-body text-center p-4">
+              <div class="icon-wrapper mb-3">
+                <i class="bi bi-mortarboard display-4 text-primary"></i>
+              </div>
+              <h5 class="card-title">Calificaciones</h5>
               <div class="mt-3">
                 <i class="bi bi-arrow-right-circle"></i>
               </div>

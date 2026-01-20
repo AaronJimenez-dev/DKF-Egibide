@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import ListaCompetenciasTecnicas from "@/components/Competencias/ListaCompetenciasTecnicas.vue";
-import ListaCompetenciasTransversales from "@/components/Competencias/ListaCompetenciasTransversales.vue";
 import type { Alumno } from "@/interfaces/Alumno";
-import { useTutorEmpresaStore } from "@/stores/tutorEmpresa";
+import { useTutorEgibideStore } from "@/stores/tutorEgibide";
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
 
-const tutorEmpresaStore = useTutorEmpresaStore();
+const tutorEgibideStore = useTutorEgibideStore();
 
 const alumno = ref<Alumno | null>(null);
 const isLoading = ref(true);
@@ -22,7 +20,7 @@ onMounted(async () => {
   try {
     // Buscar el alumno
     alumno.value =
-      tutorEmpresaStore.alumnosAsignados.find((a: Alumno) => {
+      tutorEgibideStore.alumnosAsignados.find((a: Alumno) => {
         return Number(a.pivot?.alumno_id) === alumnoId;
       }) || null;
 
@@ -101,7 +99,7 @@ const volverAlumnos = () => {
             </a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            Competencias
+            Calificaciones
           </li>
         </ol>
       </nav>
@@ -109,31 +107,9 @@ const volverAlumnos = () => {
       <!-- Cabecera del alumno -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
-          <h3 class="mb-1">Competencias</h3>
+          <h3 class="mb-1">Calificaciones</h3>
         </div>
-        <div class="card-body">
-          <p>
-            Califica las competencias asignadas al alumno
-            <b>{{ alumno.nombre }} {{ alumno.apellidos }}</b
-            >.
-          </p>
-          <div class="row mb-2">
-            <h5>Técnicas</h5>
-            <ListaCompetenciasTecnicas
-              :alumnoId="alumnoId"
-              :asignar="false"
-              :tutorEgibide="false"
-            />
-          </div>
-          <hr />
-          <div class="row mb-2">
-            <h5>Transversales</h5>
-            <ListaCompetenciasTransversales
-              :alumno-id="alumnoId"
-              :tutorEgibide="false"
-            />
-          </div>
-        </div>
+        <div class="card-body"></div>
       </div>
     </div>
   </div>

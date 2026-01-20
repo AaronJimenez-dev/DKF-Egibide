@@ -22,13 +22,13 @@ class NotaCompetenciaTec extends Model {
    * Get the competencia tec that owns this nota
    */
   public function competenciaTec(): BelongsTo {
-    return $this->belongsTo(CompetenciaTec::class);
+    return $this->belongsTo(CompetenciaTec::class, 'competencia_tec_id', 'id');
   }
 
   /**
    * Get the estancia that owns this nota
    */
   public function estancia(): BelongsTo {
-    return $this->belongsTo(Estancia::class);
+    return $this->belongsTo(Estancia::class, 'estancia_id', 'id');
   }
 }

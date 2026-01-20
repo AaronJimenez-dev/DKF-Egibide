@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Competencias
     Route::get('/competencias', [CompetenciasController::class, 'index']);
     Route::get('/competenciasTecnicas/alumno/{alumno_id}', [CompetenciasController::class, 'getCompetenciasTecnicasByAlumno']);
+    Route::get('/competenciasTecnicas/alumno/{alumno_id}/asignadas', [CompetenciasController::class, 'getCompetenciasTecnicasAsignadasByAlumno']);
     Route::get('/competenciasTransversales/alumno/{alumno_id}', [CompetenciasController::class, 'getCompetenciasTransversalesByAlumno']);
     Route::get('/competenciasTecnicas/calificaciones/{alumno_id}', [CompetenciasController::class, 'getCalificacionesCompetenciasTecnicas']);
     Route::get('/competenciasTransversales/calificaciones/{alumno_id}', [CompetenciasController::class, 'getCalificacionesCompetenciasTransversales']);

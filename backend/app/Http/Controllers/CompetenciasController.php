@@ -47,6 +47,24 @@ class CompetenciasController extends Controller {
         return response()->json($competenciasTec);
     }
 
+    public function getCompetenciasTecnicasAsignadasByAlumno($alumno_id) {
+        $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
+
+        $competenciasTecAsignadas = NotaCompetenciaTec::where('estancia_id', $estancia->id)
+            ->with('competenciaTec')
+            ->get();
+
+        $resultado = $competenciasTecAsignadas->map(function ($nota) {
+            return [
+                'nota' => $nota->nota,
+                'competencia_tec_id' => $nota->competencia_tec_id,
+                'descripcion' => $nota->competenciaTec->descripcion ?? null,
+            ];
+        });
+
+        return response()->json($resultado);
+    }
+
     public function getCompetenciasTransversalesByAlumno($alumno_id) {
         $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
 
@@ -116,7 +134,7 @@ class CompetenciasController extends Controller {
         $estancia = Estancia::where('alumno_id', $alumno_id)->firstOrFail();
 
         foreach ($validated['competencias'] as $compenciaId) {
-            NotaCompetenciaTec::create([
+            NotaCompetenciaTec::updateOrcreate([
                 'estancia_id' => $estancia->id,
                 'competencia_tec_id' => $compenciaId,
             ]);

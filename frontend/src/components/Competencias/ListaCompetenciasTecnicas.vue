@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import type { Competencia } from "@/interfaces/Competencia";
+import type {
+  Competencia,
+  CompetenciaAsignada,
+} from "@/interfaces/Competencia";
 import { useCompetenciasStore } from "@/stores/competencias";
 import { onMounted, ref } from "vue";
 import Toast from "../Notification/Toast.vue";
@@ -13,7 +16,9 @@ const props = defineProps<{
 
 const competenciaStore = useCompetenciasStore();
 
-const competencias = ref<Competencia[]>([]);
+// En tu script setup
+const competencias = ref<Competencia[]>([]); // Para modo asignar
+const competenciasAsignadas = ref<CompetenciaAsignada[]>([]); // Para modo calificar
 const competenciasSeleccionadas = ref<number[]>([]);
 const competenciasCalificadas = ref<Record<number, number>>({});
 
@@ -25,31 +30,51 @@ const tieneCalificacion = (competenciaId: number): boolean => {
 
 onMounted(async () => {
   try {
-    await competenciaStore.fetchCompetenciasTecnicasByAlumno(props.alumnoId);
-    competencias.value = competenciaStore.competencias;
+    if (!props.asignar) {
+      // Modo calificar - cargar asignadas
+      await competenciaStore.fetchCompetenciasTecnicasAsignadasByAlumno(
+        props.alumnoId,
+      );
+      competenciasAsignadas.value =
+        competenciaStore.competenciasAsignadas as CompetenciaAsignada[];
+      console.log("📋 Competencias asignadas:", competenciasAsignadas.value);
+    } else {
+      // Modo asignar - cargar todas
+      await competenciaStore.fetchCompetenciasTecnicasByAlumno(props.alumnoId);
+      competencias.value = competenciaStore.competencias;
+      console.log("📋 Todas las competencias:", competencias.value);
+    }
 
-    // Cargar las calificaciones existentes
+    // Cargar calificaciones
     const calificaciones =
       await competenciaStore.getCalificacionesCompetenciasTecnicas(
         props.alumnoId,
       );
 
-    // Transformar array de objetos a Record<number, number>
     if (Array.isArray(calificaciones)) {
       calificaciones.forEach((item: any) => {
         const competenciaId = item.competencia_tec_id;
-        competenciasCalificadas.value[competenciaId] = Math.round(
-          Number(item.nota),
-        );
 
-        // Si hay asignación, marcar como seleccionada en los checkboxes
         if (props.asignar) {
           competenciasSeleccionadas.value.push(competenciaId);
         }
+
+        if (item.nota !== null && item.nota !== undefined) {
+          const nota = Math.round(Number(item.nota));
+          if (nota >= 1 && nota <= 4) {
+            competenciasCalificadas.value[competenciaId] = nota;
+          }
+        }
       });
     }
+
+    console.log(
+      "🔵 competenciasSeleccionadas:",
+      competenciasSeleccionadas.value,
+    );
+    console.log("🟢 competenciasCalificadas:", competenciasCalificadas.value);
   } catch (error) {
-    console.error("Error al cargar alumnos:", error);
+    console.error("Error al cargar datos:", error);
   } finally {
     isLoading.value = false;
   }
@@ -77,11 +102,21 @@ async function guardar() {
 async function guardarCalificacionesTecnicas() {
   let ok = false;
 
-  const payload = Object.entries(competenciasCalificadas.value).map(
-    ([competenciaId, calificacion]) => ({
+  // ✅ Solo enviar las competencias que tienen calificación válida (1-4)
+  const payload = Object.entries(competenciasCalificadas.value)
+    .filter(([_, calificacion]) => {
+      const nota = Number(calificacion);
+      return nota >= 1 && nota <= 4; // Solo calificaciones válidas
+    })
+    .map(([competenciaId, calificacion]) => ({
       competencia_id: Number(competenciaId),
-      calificacion,
-    }),
+      calificacion: Number(calificacion),
+    }));
+
+  console.log("📤 Payload final:", payload);
+  console.log(
+    "🔍 competenciasCalificadas antes de enviar:",
+    competenciasCalificadas.value,
   );
 
   ok = await competenciaStore.calificarCompetenciasTecnicas(
@@ -111,18 +146,24 @@ async function guardarCalificacionesTecnicas() {
     </div>
     <p class="mt-3 text-muted">Cargando competencias técnicas...</p>
   </div>
+
   <!-- Sin competencias -->
   <div
-    v-else-if="competencias.length === 0"
+    v-else-if="
+      (props.asignar && competencias.length === 0) ||
+      (!props.asignar && competenciasAsignadas.length === 0)
+    "
     class="alert alert-info d-flex align-items-center"
     role="alert"
   >
     <i class="bi bi-info-circle-fill me-2"></i>
-    <div>El ciclo del alumno no tiene competencias asignadas.</div>
+    <div>El alumno no tiene competencias asignadas.</div>
   </div>
+
   <!-- Lista de competencias -->
   <div v-else>
     <ul class="list-group">
+      <!-- Modo ASIGNAR -->
       <li
         class="list-group-item my-2"
         v-for="competencia in competencias"
@@ -149,27 +190,34 @@ async function guardarCalificacionesTecnicas() {
           </small>
         </label>
       </li>
+
+      <!-- Modo CALIFICAR -->
       <li
         class="list-group-item my-2 d-flex align-items-center"
-        v-for="competencia in competencias"
-        :key="competencia.id"
+        v-for="competencia in competenciasAsignadas"
+        :key="competencia.competencia_tec_id"
         v-if="!props.asignar"
       >
-        <label :for="`competencia-${competencia.id}`" class="mx-1">
+        <label
+          :for="`competencia-${competencia.competencia_tec_id}`"
+          class="mx-1"
+        >
           {{ competencia.descripcion }}
-          <i class="bi bi-arrow-right mr-1"></i>
-          <b> Calificación:</b>
         </label>
         <select
           class="form-select form-select-sm bg-light"
           aria-label="Calificación competencias"
           style="width: 8rem"
-          :id="`competencia-${competencia.id}`"
-          v-model.number="competenciasCalificadas[competencia.id]"
-          required
+          :id="`competencia-${competencia.competencia_tec_id}`"
+          v-model.number="
+            competenciasCalificadas[competencia.competencia_tec_id]
+          "
           :disabled="props.tutorEgibide"
         >
-          <option v-if="!tieneCalificacion(competencia.id)" :value="null">
+          <option
+            v-if="!tieneCalificacion(competencia.competencia_tec_id)"
+            :value="undefined"
+          >
             Sin calificar
           </option>
           <option :value="1">1</option>
@@ -179,6 +227,7 @@ async function guardarCalificacionesTecnicas() {
         </select>
       </li>
     </ul>
+
     <button
       class="btn btn-primary"
       v-if="props.asignar && !props.tutorEgibide"

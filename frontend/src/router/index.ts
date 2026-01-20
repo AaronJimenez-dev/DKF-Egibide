@@ -148,6 +148,14 @@ const router = createRouter({
           },
           meta: { role: "tutor_egibide" },
         },
+        {
+          path: "tutor-egibide/alumno-empresa/:alumnoId/calificaciones",
+          name: "tutor_egibide-calificaciones",
+          components: {
+            main: () => import("@/pages/TutorEgibide/calificaciones.vue"),
+          },
+          meta: { role: "tutor_egibide" },
+        },
         // Grupo de rutas para Empresas
         {
           path: "tutor-empresa/inicio",

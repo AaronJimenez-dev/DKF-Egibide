@@ -1,4 +1,7 @@
-import type { Competencia } from "@/interfaces/Competencia";
+import type {
+  Competencia,
+  CompetenciaAsignada,
+} from "@/interfaces/Competencia";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useAuthStore } from "./auth";
@@ -6,6 +9,7 @@ import type { CompetenciaCalificada } from "@/interfaces/CompetenciaCalificada";
 
 export const useCompetenciasStore = defineStore("competencias", () => {
   const competencias = ref<Competencia[]>([]);
+  const competenciasAsignadas = ref<CompetenciaAsignada[]>([]);
   const competenciasTransversales = ref<Competencia[]>([]);
   const authStore = useAuthStore();
 
@@ -52,6 +56,22 @@ export const useCompetenciasStore = defineStore("competencias", () => {
 
     const data = await response.json();
     competencias.value = data as Competencia[];
+  }
+
+  async function fetchCompetenciasTecnicasAsignadasByAlumno(alumno_id: number) {
+    const response = await fetch(
+      `http://localhost:8000/api/competenciasTecnicas/alumno/${alumno_id}/asignadas`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+    competenciasAsignadas.value = data as CompetenciaAsignada[];
   }
 
   async function fetchCompetenciasTransversalesByAlumno(alumno_id: number) {
@@ -285,10 +305,12 @@ export const useCompetenciasStore = defineStore("competencias", () => {
 
   return {
     competencias,
+    competenciasAsignadas,
     message,
     messageType,
     fetchCompetencias,
     fetchCompetenciasTecnicasByAlumno,
+    fetchCompetenciasTecnicasAsignadasByAlumno,
     fetchCompetenciasTransversalesByAlumno,
     createCompetenciaTecnica,
     createCompetenciaTransversal,
