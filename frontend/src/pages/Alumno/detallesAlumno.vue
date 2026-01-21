@@ -14,8 +14,24 @@ const tutorEgibideStore = useTutorEgibideStore();
 const tutorEmpresaStore = useTutorEmpresaStore();
 const empresaStore = useEmpresasStore();
 
-const alumno = ref<Alumno | null>(null);
-const empresa = ref<Empresa | null>(null);
+const alumno = computed<Alumno | null>(() => {
+  if (!store.value.alumnosAsignados) return null;
+
+  return (
+    store.value.alumnosAsignados.find(
+      (a: Alumno) => Number(a.id) === alumnoId,
+    ) || null
+  );
+});
+const empresa = computed<Empresa | null>(() => {
+  if (!alumno.value?.pivot?.empresa_id) return null;
+
+  return (
+    empresaStore.empresas.find(
+      (e: Empresa) => Number(e.id) === alumno.value!.pivot!.empresa_id,
+    ) || null
+  );
+});
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 
@@ -40,33 +56,15 @@ onMounted(async () => {
       await store.value.fetchAlumnosAsignados(tutorId);
     }
 
-    alumno.value =
-      store.value.alumnosAsignados.find(
-        (a: Alumno) => Number(a.id) === alumnoId,
-      ) || null;
+    if (!empresaStore.empresas || empresaStore.empresas.length === 0) {
+      await empresaStore.fetchEmpresas();
+    }
 
     if (!alumno.value) {
       error.value = "Alumno no encontrado";
-      return;
-    }
-
-    if (!empresaStore.empresas || empresaStore.empresas.length === 0) {
-      await empresaStore.fetchEmpresas(); // Cambiar a fetch por ciclos
-    }
-
-    empresa.value =
-      empresaStore.empresas.find(
-        (e: Empresa) => Number(e.id) === alumno.value?.pivot?.empresa_id,
-      ) || null;
-
-    if (!empresa.value) {
-      console.warn(
-        "No se encontró la empresa con ID:",
-        alumno.value?.pivot?.empresa_id,
-      );
     }
   } catch (err) {
-    console.error("Error al cargar alumno o empresas:", err);
+    console.error(err);
     error.value = "Error al cargar los datos del alumno";
   } finally {
     isLoading.value = false;

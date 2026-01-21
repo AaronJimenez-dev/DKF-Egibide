@@ -47,7 +47,12 @@ onMounted(async () => {
 });
 
 const volver = () => router.back();
+const volverAlumno = () => {
+  router.back();
+  router.back();
+};
 const volverAlumnos = () => {
+  router.back();
   router.back();
   router.back();
 };
@@ -79,7 +84,7 @@ const volverAlumnos = () => {
             <a href="#" @click.prevent="volverAlumnos">Alumnos</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#" @click.prevent="volver">
+            <a href="#" @click.prevent="volverAlumno">
               {{ alumno?.nombre }} {{ alumno?.apellidos }}
             </a>
           </li>
