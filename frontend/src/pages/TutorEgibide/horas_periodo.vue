@@ -70,6 +70,7 @@ const guardarHorario = async () => {
       <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
+            <i class="bi bi-arrow-left me-1"></i>
             <a href="#" @click.prevent="volverAlumnos">Alumnos</a>
           </li>
           <li class="breadcrumb-item">
@@ -82,6 +83,10 @@ const guardarHorario = async () => {
       </nav>
 
       <div class="card shadow-sm">
+        <div class="card-header">
+          <h3 class="mb-1">Horas y periodo</h3>
+        </div>
+
         <div class="card-body">
           <p>Introduce las horas y periodo del alumno <b>{{ alumno?.nombre }}</b></p>
 
