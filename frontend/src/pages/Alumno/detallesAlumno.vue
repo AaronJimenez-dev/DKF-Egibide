@@ -14,24 +14,17 @@ const tutorEgibideStore = useTutorEgibideStore();
 const tutorEmpresaStore = useTutorEmpresaStore();
 const empresaStore = useEmpresasStore();
 
-const alumno = computed<Alumno | null>(() => {
-  if (!store.value.alumnosAsignados) return null;
-
-  return (
-    store.value.alumnosAsignados.find(
-      (a: Alumno) => Number(a.id) === alumnoId,
-    ) || null
-  );
+// Computed alumno
+const alumno = computed(() => {
+  return store.value.alumnosAsignados.find(a => a.id === alumnoId) || null;
 });
-const empresa = computed<Empresa | null>(() => {
+
+// Computed empresa: busca la empresa en el store de empresas
+const empresa = computed(() => {
   if (!alumno.value?.pivot?.empresa_id) return null;
-
-  return (
-    empresaStore.empresas.find(
-      (e: Empresa) => Number(e.id) === alumno.value!.pivot!.empresa_id,
-    ) || null
-  );
+  return empresaStore.empresas.find(e => e.id === alumno.value!.pivot!.empresa_id) || null;
 });
+
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 
@@ -234,16 +227,13 @@ const formatDate = (dateString: string) => {
                 <strong class="ms-2">{{ alumno.pivot.horas_totales }}h</strong>
               </div>
             </div>
-            <div
-              class="col-md-6"
-              v-if="alumno.pivot?.fecha_inicio && alumno.pivot?.fecha_fin"
-            >
+            <div class="col-md-6" v-if="alumno.pivot?.fecha_inicio || alumno.pivot?.fecha_fin">
               <div class="info-item">
                 <i class="bi bi-calendar-range-fill text-primary me-2"></i>
                 <span class="text-muted">Periodo:</span>
                 <strong class="ms-2">
-                  {{ formatDate(alumno.pivot.fecha_inicio) }} -
-                  {{ formatDate(alumno.pivot.fecha_fin) }}
+                  {{ alumno.pivot?.fecha_inicio ? formatDate(alumno.pivot.fecha_inicio) : 'Por definir' }} -
+                  {{ alumno.pivot?.fecha_fin ? formatDate(alumno.pivot.fecha_fin) : 'Por definir' }}
                 </strong>
               </div>
             </div>

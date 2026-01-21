@@ -105,6 +105,13 @@ const volverAlumnos = () => {
         <div class="card-body">
           <ul class="list-group">
             <li
+              v-if="seguimientosStore.seguimientos.length === 0"
+              class="list-group-item text-muted text-center"
+            >
+              No hay seguimientos aún
+            </li>
+            <li
+              v-else
               v-for="seguimiento in seguimientosStore.seguimientos"
               :key="seguimiento.id"
               class="list-group-item"
