@@ -77,6 +77,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Seguimientos
     Route::get('/seguimientos/alumno/{alumno_Id}', [SeguimientosController::class, 'seguimientosAlumno']);
-
+    Route::post('/nuevo-seguimiento', [SeguimientosController::class, 'nuevoSeguimiento']);
 }
 );

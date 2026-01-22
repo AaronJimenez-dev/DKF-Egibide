@@ -75,4 +75,9 @@ class SeguimientosController extends Controller
 
         return response()->json($seguimientos);
     }
+
+    public function nuevoSeguimiento(Request $request)
+    {
+
+    }
 }
