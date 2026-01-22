@@ -103,6 +103,39 @@ export const useSeguimientosStore = defineStore("seguimientos", () => {
     }
   }
 
+  async function eliminarSeguimiento(id: number) {
+    if (!id) return false;
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const res = await fetch(`http://localhost:8000/api/seguimientos/${id}`, {
+        method: "DELETE",
+        headers: authStore.token
+          ? { Authorization: `Bearer ${authStore.token}` }
+          : {},
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setMessage(data?.message || `Error ${res.status} al eliminar seguimiento`, "error");
+        return false;
+      }
+
+      // Eliminar localmente del array
+      seguimientos.value = seguimientos.value.filter(s => s.id !== id);
+      setMessage("Seguimiento eliminado correctamente", "success");
+      return true;
+    } catch (err) {
+      console.error(err);
+      setMessage("Error de conexión al eliminar seguimiento", "error");
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     seguimientos,
     loading,
@@ -111,6 +144,7 @@ export const useSeguimientosStore = defineStore("seguimientos", () => {
     messageType,
     fetchSeguimientos,
     nuevoSeguimiento,
+    eliminarSeguimiento,
     setMessage,
   };
 });

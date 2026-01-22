@@ -59,9 +59,17 @@ class SeguimientosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Seguimiento $seguimiento)
+    public function destroy($id)
     {
-        //
+        $seguimiento = Seguimiento::find($id);
+
+        if (!$seguimiento) {
+            return response()->json(['message' => 'Seguimiento no encontrado'], 404);
+        }
+
+        $seguimiento->delete();
+
+        return response()->json(['message' => 'Seguimiento eliminado correctamente']);
     }
 
     public function seguimientosAlumno($alumno_Id)
