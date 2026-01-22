@@ -100,7 +100,7 @@ const verDetalleEmpresa = (empresaId: number) => {
       <div
         v-for="empresa in empresasFiltradas"
         :key="empresa.id"
-        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 hover-card"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 hover-card mb-2"
         @click="verDetalleEmpresa(empresa.id)"
         role="button"
         tabindex="0"

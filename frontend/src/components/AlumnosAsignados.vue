@@ -116,7 +116,7 @@ const verDetalleAlumno = (alumnoId: number) => {
       <div
         v-for="alumno in alumnosFiltrados"
         :key="alumno.id"
-        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 hover-card"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 hover-card mb-2"
         @click="verDetalleAlumno(alumno.id)"
         role="button"
         tabindex="0"
