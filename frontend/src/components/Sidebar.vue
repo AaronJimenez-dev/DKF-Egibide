@@ -1,19 +1,12 @@
-<script>
+<script setup>
 import { computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
 
-export default {
-  name: "Sidebar",
-  setup() {
-    const authStore = useAuthStore();
+const authStore = useAuthStore();
 
-    const userRole = computed(() => authStore.currentUser?.role);
+const userRole = computed(() => authStore.currentUser?.role);
+const userId = computed(() => authStore.currentUser.id);
 
-    return {
-      userRole,
-    };
-  },
-};
 </script>
 
 <template>
@@ -33,7 +26,7 @@ export default {
           <RouterLink to="/alumno/informacion" class="sidebar-title"
             >Información</RouterLink
           >
-        </h3>  
+        </h3>
         <ul class="list-unstyled mb-0">
           <li>
             <RouterLink to="/alumno/mis-datos" class="sidebar-item"
@@ -58,7 +51,7 @@ export default {
 
       <div class="sidebar-section">
         <h3>
-          <RouterLink to="/alumno/calificacion" class="sidebar-title"
+          <RouterLink :to="`/alumno/${userId}/calificacion`" class="sidebar-title"
             >Calificación</RouterLink
           >
         </h3>
@@ -112,7 +105,7 @@ export default {
           <RouterLink to="/tutor-empresa/informacion" class="sidebar-title"
             >Información</RouterLink
           >
-        </h3>  
+        </h3>
         <ul class="list-unstyled mb-0">
           <li>
             <RouterLink

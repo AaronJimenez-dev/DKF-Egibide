@@ -3,13 +3,14 @@ import { defineStore } from "pinia";
 import { useAuthStore } from "./auth";
 import { ref } from "vue";
 import type { Asignatura } from "@/interfaces/Asignatura";
+import type { NotaCuaderno, NotaEgibide } from "@/interfaces/Notas";
 
 export const useAlumnosStore = defineStore("alumnos", () => {
   const alumnos = ref<Alumno[]>([]);
   const alumno = ref<Alumno[]>([]);
   const asignaturas = ref<Asignatura[]>([]);
   const notaCuaderno = ref<number | null>(null);
-  const notaCuadernoMsg = ref<string | null>(null);
+  const notasEgibide = ref<NotaEgibide[]>([]);
   const inicio = ref<any | null>(null);
   const loadingInicio = ref(false);
 
@@ -132,33 +133,6 @@ export const useAlumnosStore = defineStore("alumnos", () => {
       loadingInicio.value = false;
     }
   }
-  
-  async function fetchNotaCuaderno() {
-    const response = await fetch("http://localhost:8000/api/me/nota-cuaderno", {
-      method: "GET",
-      headers: {
-        Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
-        Accept: "application/json",
-      },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setMessage(
-        data.message || "Error desconocido, inténtalo más tarde",
-        "error",
-      );
-      notaCuaderno.value = null;
-      notaCuadernoMsg.value = null;
-      return false;
-    }
-
-    notaCuaderno.value = data.nota ?? null;
-    notaCuadernoMsg.value = data.message ?? null;
-
-    return true;
-  }
 
   async function createAlumno(
     nombre: string,
@@ -215,35 +189,86 @@ export const useAlumnosStore = defineStore("alumnos", () => {
     asignaturas.value = data as Asignatura[];
     return true;
   }
-  
-async function fetchEntregasAlumno(alumnoId: number) {
-  loadingEntregas.value = true;
-  try {
-    const response = await fetch(`http://localhost:8000/api/alumnos/${alumnoId}/entregas`, {
-      headers: {
-        Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
-        Accept: "application/json",
+
+  async function getNotasEgibideByAlumno(alumno_id: number) {
+    const response = await fetch(
+      `http://localhost:8000/api/notas/alumno/${alumno_id}/egibide`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
       },
-    });
+    );
 
-    if (!response.ok) throw new Error("Error al cargar entregas");
+    const data = await response.json();
 
-    entregas.value = await response.json(); // Guardamos todas las entregas del alumno
-  } catch (err) {
-    console.error(err);
-    message.value = "Error al cargar las entregas del alumno";
-    messageType.value = "error";
-  } finally {
-    loadingEntregas.value = false;
+    if (!response.ok) {
+      setMessage(
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
+      return false;
+    }
+
+    notasEgibide.value = data as NotaEgibide[];
+    return true;
   }
-}
+
+  async function getNotaCuadernoByAlumno(alumno_id: number) {
+    const response = await fetch(
+      `http://localhost:8000/api/notas/alumno/${alumno_id}/cuaderno`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(
+        data.message || "Error desconocido, inténtalo más tarde",
+        "error",
+      );
+      return false;
+    }
+
+    notaCuaderno.value = Number(data.nota);
+    return true;
+  }
+
+  async function fetchEntregasAlumno(alumnoId: number) {
+    loadingEntregas.value = true;
+    try {
+      const response = await fetch(`http://localhost:8000/api/alumnos/${alumnoId}/entregas`, {
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("Error al cargar entregas");
+
+      entregas.value = await response.json(); // Guardamos todas las entregas del alumno
+    } catch (err) {
+      console.error(err);
+      message.value = "Error al cargar las entregas del alumno";
+      messageType.value = "error";
+    } finally {
+      loadingEntregas.value = false;
+    }
+  }
 
 
   return {
     alumnos,
     alumno,
     notaCuaderno,
-    notaCuadernoMsg,
     asignaturas,
     message,
     messageType,
@@ -251,14 +276,16 @@ async function fetchEntregasAlumno(alumnoId: number) {
     loadingEntregas,
     inicio,
     loadingInicio,
+    notasEgibide,
     fetchInicio,
     subirEntrega,
     fetchMisEntregas,
     fetchAlumnos,
     fetchAlumno,
     getAsignaturasAlumno,
-    fetchNotaCuaderno,
     createAlumno,
-    fetchEntregasAlumno
+    fetchEntregasAlumno,
+    getNotasEgibideByAlumno,
+    getNotaCuadernoByAlumno
   };
 });

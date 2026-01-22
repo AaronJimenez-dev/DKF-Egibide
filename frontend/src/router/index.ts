@@ -60,7 +60,7 @@ const router = createRouter({
           meta: { role: "alumno" },
         },
         {
-          path: "alumno/calificacion",
+          path: "alumno/:alumnoId/calificacion",
           name: "alumno-calificacion",
           components: {
             main: () => import("@/pages/Alumno/calificacion.vue"),

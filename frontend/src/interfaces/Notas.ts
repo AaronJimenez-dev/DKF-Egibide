@@ -9,6 +9,15 @@ export interface NotaCompetenciaTransversal {
   nota_media: number;
 }
 
+export interface NotaEgibide {
+  nota: string;
+  asignatura_id: number;
+}
+
+export interface NotaCuaderno {
+  nota: number;
+}
+
 export interface CalculoNotasTecnicasResponse {
   alumno_id: number;
   notas_competenciasTec: NotaCompetenciaTecnica[];

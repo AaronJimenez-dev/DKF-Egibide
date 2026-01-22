@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useAlumnosStore } from "@/stores/alumnos";
+import { useRoute } from "vue-router";
+import router from "@/router";
+import type { NotaCuaderno } from "@/interfaces/Notas";
 
 const alumnosStore = useAlumnosStore();
+const route = useRoute();
+
+const alumnoId = Number(route.params.alumnoId);
+const error = ref<string | null>(null);
+const notaCuaderno = ref<number | null>(null);
+
+function volver() {
+  router.back();
+}
 
 onMounted(async () => {
-  await alumnosStore.fetchNotaCuaderno();
+  await alumnosStore.getNotaCuadernoByAlumno(alumnoId);
+  notaCuaderno.value = alumnosStore.notaCuaderno
 });
 </script>
 
@@ -15,12 +28,22 @@ onMounted(async () => {
 
     <div v-if="alumnosStore.notaCuaderno !== null" class="nota card">
       <div class="card-body">
-        <p><strong>Nota:</strong> {{ alumnosStore.notaCuaderno }}</p>
+        <p><strong>Nota Cuaderno:</strong> {{ notaCuaderno }}</p>
       </div>
     </div>
 
-    <div v-else class="msg">
-      <p>{{ alumnosStore.notaCuadernoMsg ?? "No hay nota disponible." }}</p>
+    <div
+      v-else-if="error"
+      class="alert alert-danger d-flex align-items-center"
+      role="alert"
+    >
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>
+        {{ error }}
+        <button class="btn btn-sm btn-outline-danger ms-3" @click="volver">
+          Volver a alumno
+        </button>
+      </div>
     </div>
   </div>
 </template>

@@ -1,10 +1,8 @@
 <script setup lang="ts">
+import Toast from "@/components/Notification/Toast.vue";
 import type { Alumno } from "@/interfaces/Alumno";
 import type { Asignatura } from "@/interfaces/Asignatura";
-import type {
-  NotaCompetenciaTecnica,
-  NotaCompetenciaTransversal,
-} from "@/interfaces/Notas";
+import type { NotaCompetenciaTecnica, NotaEgibide } from "@/interfaces/Notas";
 import { useAlumnosStore } from "@/stores/alumnos";
 import { useCompetenciasStore } from "@/stores/competencias";
 import { useTutorEgibideStore } from "@/stores/tutorEgibide";
@@ -20,8 +18,10 @@ const competenciasStore = useCompetenciasStore();
 
 const alumno = ref<Alumno | null>(null);
 const asignaturas = ref<Asignatura[]>([]);
+const notasEgibide = ref<NotaEgibide[]>([]);
 const notasTecnicas = ref<NotaCompetenciaTecnica[]>([]);
 const notaTransversal = ref<number>(0);
+const notaCuaderno = ref<number | null>(null);
 
 const isLoading = ref(true);
 const error = ref<string | null>(null);
@@ -39,7 +39,6 @@ onMounted(async () => {
 
     if (!alumno.value) {
       error.value = "Alumno no encontrado";
-      console.error("No se encontró el alumno con ID:", alumnoId);
     }
 
     // Obtener asignaturas
@@ -55,6 +54,18 @@ onMounted(async () => {
     const responseTrans =
       await competenciasStore.getNotaTransversalByAlumno(alumnoId);
     notaTransversal.value = responseTrans.nota_media;
+
+    // Obtener notas egibide
+    const responseEgibide = await alumnoStore.getNotasEgibideByAlumno(alumnoId);
+    if (responseEgibide) {
+      notasEgibide.value = alumnoStore.notasEgibide
+    }
+
+    // Obtener nota cuaderno
+    await alumnoStore.getNotaCuadernoByAlumno(alumnoId);
+    notaCuaderno.value = alumnoStore.notaCuaderno;
+
+    console.log(notasEgibide.value)
   } catch (error) {
     console.error("Error al cargar alumnos:", error);
   } finally {
@@ -72,6 +83,16 @@ const notasTecnicasPorAsignatura = computed(() => {
   return map;
 });
 
+const notasEgibidePorAsignatura = computed(() => {
+  const map: Record<number, string> = {};
+
+  notasEgibide.value.forEach(n => {
+    map[n.asignatura_id] = n.nota;
+  });
+
+  return map;
+});
+
 const volver = () => {
   router.back();
 };
@@ -83,6 +104,8 @@ const volverAlumnos = () => {
 </script>
 
 <template>
+  <Toast v-if="alumnoStore.message" :message="alumnoStore.message" :messageType="alumnoStore.messageType" />
+
   <div class="container mt-4">
     <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
@@ -149,36 +172,34 @@ const volverAlumnos = () => {
         <div class="card-body">
           <table
             v-if="asignaturas.length"
-            class="table table-striped-columns text-center align-middle"
+            class="table table-bordered text-center align-middle border-primary shadow"
           >
             <thead>
               <tr>
-                <th rowspan="2" class="align-middle"></th>
-                <th rowspan="2" class="bg-primary text-light align-middle">
-                  Egibide (80%)
-                </th>
-                <th colspan="3" class="bg-light">Empresa (20%)</th>
+                <th rowspan="2" class="bg-primary"></th>
+                <th rowspan="2" class="bg-primary text-white align-middle">EGIBIDE <br> 80%</th>
+                <th colspan="3" class="bg-warning">EMPRESA 20%</th>
+                <th rowspan="2" class="bg-success text-white align-middle">Nota Final</th>
               </tr>
               <tr>
-                <th>Técnico (60%)</th>
-                <th>Transversal (20%)</th>
-                <th>Cuaderno (20%)</th>
+                <th class="bg-secondary text-light">Técnico <br> 60%</th>
+                <th class="bg-secondary text-light">Transversal <br> 20%</th>
+                <th class="bg-secondary text-light">Cuaderno <br> 20%</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(asignatura, index) in asignaturas"
-                :key="asignatura.id"
-              >
-                <td>{{ asignatura.codigo_asignatura }}</td>
-                <td></td>
+              <tr v-for="(asignatura, index) in asignaturas" :key="asignatura.id">
+                <td class="fw-bold">{{ asignatura.codigo_asignatura }}</td>
+                <td>{{ notasEgibidePorAsignatura[asignatura.id] ?? "-" }}</td>
                 <td>{{ notasTecnicasPorAsignatura[asignatura.id] ?? "-" }}</td>
-
-                <td v-if="index === 0" :rowspan="asignaturas.length">
+                <td v-if="index === 0" :rowspan="asignaturas.length" class="fs-3">
                   {{ notaTransversal }}
                 </td>
+                <td v-if="index === 0" :rowspan="asignaturas.length" class="fs-3">
+                  {{ notaCuaderno }}
+                </td>
 
-                <td v-if="index === 0" :rowspan="asignaturas.length"></td>
+                <td></td> <!-- Nota final -->
               </tr>
             </tbody>
           </table>
