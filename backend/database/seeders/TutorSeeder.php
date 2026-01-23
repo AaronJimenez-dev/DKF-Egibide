@@ -12,7 +12,7 @@ class TutorSeeder extends Seeder {
         DB::table('tutores')->insert([
             [
                 'nombre' => 'Danel',
-                'apellidos' => 'Tutor',
+                'apellidos' => 'Rivas',
                 'telefono' => '600333444',
                 'ciudad' => 'Vitoria-Gasteiz',
                 'user_id' => 3,

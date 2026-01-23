@@ -70,6 +70,7 @@ Route::middleware('auth:sanctum')->group(
         Route::delete('/entregas/{id}', [EntregaController::class, 'destroy']);
 
         // Tutor Egibide
+        Route::get('/tutorEgibide/inicio', [TutorEgibideController::class, 'inicioTutor']);
         Route::get('/tutorEgibide/{tutorId}/alumnos', [TutorEgibideController::class, 'getAlumnosByCurrentTutor']);
         Route::get('/tutorEgibide/{tutorId}/empresas', [TutorEgibideController::class, 'conseguirEmpresasporTutor']);
         Route::get('/tutorEgibide/empresa/{empresaId}', [TutorEgibideController::class, 'getDetalleEmpresa']);

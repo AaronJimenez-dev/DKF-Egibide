@@ -11,6 +11,9 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
+  const inicio = ref(null);
+  const loadingInicio = ref(false);
+
   const authStore = useAuthStore();
 
   // Toast
@@ -88,6 +91,34 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
       loading.value = false;
     }
   }
+
+  async function fetchInicioTutor() {
+    loadingInicio.value = true;
+
+    try {
+      const response = await fetch("http://localhost:8000/api/tutorEgibide/inicio", {
+        method: "GET",
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+          Accept: "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage(data.message || "Error desconocido, inténtalo más tarde", "error");
+        inicio.value = null;
+        return false;
+      }
+
+      inicio.value = data;
+      return true;
+    } finally {
+      loadingInicio.value = false;
+    }
+  }
+
   // Guardar horario y periodo de alumno
   async function guardarHorarioAlumno(
     alumnoId: number,
@@ -173,6 +204,9 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
     error,
     message,
     messageType,
+    inicio,
+    loadingInicio,
+    fetchInicioTutor,
     fetchAlumnosAsignados,
     fetchEmpresasAsignadas,
     guardarHorarioAlumno,

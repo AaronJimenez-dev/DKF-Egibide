@@ -44,7 +44,7 @@ class User extends Authenticatable {
      * Get the tutor associated with this user
      */
     public function tutorEgibide(): HasOne {
-        return $this->hasOne(TutorEgibide::class);
+        return $this->hasOne(TutorEgibide::class,'user_id', 'id');
     }
 
     /**
