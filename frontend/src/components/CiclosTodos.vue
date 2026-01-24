@@ -131,7 +131,11 @@ const verDetalleCiclo = (cicloId: number) => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #27ae60 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +154,7 @@ const verDetalleCiclo = (cicloId: number) => {
 .hover-card:hover {
   background-color: var(--bs-primary);
   color: white;
-  border-left-color: #f7971e;
+  border-left-color: #27ae60;
   transform: translateX(5px);
 }
 

@@ -56,7 +56,7 @@ const guardarHorario = async () => {
 <template>
   <Toast
     v-if="message"
-    :message="message"
+    :message="message" 
     :messageType="messageType"
   />
 
@@ -132,4 +132,5 @@ const guardarHorario = async () => {
   color: var(--bs-primary);
   text-decoration: underline !important;
 }
+
 </style>

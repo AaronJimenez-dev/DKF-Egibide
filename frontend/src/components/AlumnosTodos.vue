@@ -134,7 +134,11 @@ const verDetalleAlumno = (alumnoId: number) => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #4a90e2 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +157,7 @@ const verDetalleAlumno = (alumnoId: number) => {
 .hover-card:hover {
   background-color: var(--bs-primary);
   color: white;
-  border-left-color: #667eea;
+  border-left-color: #4a90e2;
   transform: translateX(5px);
 }
 

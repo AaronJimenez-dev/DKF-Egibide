@@ -392,7 +392,11 @@ const formatDate = (dateString: string) => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #4a90e2 100%
+  );  
   display: flex;
   align-items: center;
   justify-content: center;

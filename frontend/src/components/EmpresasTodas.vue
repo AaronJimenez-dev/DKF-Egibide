@@ -131,7 +131,11 @@ const verDetalleEmpresa = (empresaId: number) => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #2c3e50 100%
+  );  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +154,7 @@ const verDetalleEmpresa = (empresaId: number) => {
 .hover-card:hover {
   background-color: var(--bs-primary);
   color: white;
-  border-left-color: #43cea2;
+  border-left-color: #2c3e50;
   transform: translateX(5px);
 }
 

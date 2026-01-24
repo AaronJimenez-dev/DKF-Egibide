@@ -147,10 +147,18 @@ const competenciasTransversales = computed(() =>
 
 /* Colores según tipo */
 .bg-tecnica {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #07dbb1 100%
+  );
 }
 .bg-transversal {
-  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #f39c12 100%
+  );
 }
 
 h2 {

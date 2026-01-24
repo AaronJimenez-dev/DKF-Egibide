@@ -217,8 +217,11 @@ const volver = () => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #2c3e50 100%
+  );  display: flex;
   align-items: center;
   justify-content: center;
   color: white;
@@ -230,8 +233,11 @@ const volver = () => {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
+  background: linear-gradient(
+    135deg,
+    #81045f 0%,
+    #2c3e50 100%
+  );  display: flex;
   align-items: center;
   justify-content: center;
   color: white;
