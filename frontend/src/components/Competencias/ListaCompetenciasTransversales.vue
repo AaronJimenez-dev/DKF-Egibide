@@ -99,8 +99,7 @@ async function guardarCalificacionesTransversales() {
   >
     <i class="bi bi-info-circle-fill me-2"></i>
     <div>
-      La familia profesional del alumno no tiene competencias transversales
-      asignadas.
+      La familia profesional del alumno no tiene competencias transversales asignadas.
     </div>
   </div>
   <!-- Lista de competencias -->

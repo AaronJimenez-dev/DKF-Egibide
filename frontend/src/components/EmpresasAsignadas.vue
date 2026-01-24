@@ -69,15 +69,15 @@ const verDetalleEmpresa = (empresaId: number) => {
 
     <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
+      <div class="spinner-border" style="color: #81045f;" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
-      <p class="mt-3 text-muted">Cargando empresas asignadas...</p>
+      <p class="mt-3 text-muted fw-semibold">Cargando empresas asignadas...</p>
     </div>
 
     <!-- Sin empresas asignadas -->
     <div
-      v-else-if="empresasAsignadas.length === 0"
+      v-else-if="!isLoading && empresasAsignadas.length === 0"
       class="alert alert-info d-flex align-items-center"
       role="alert"
     >
@@ -87,7 +87,7 @@ const verDetalleEmpresa = (empresaId: number) => {
 
     <!-- Sin resultados de búsqueda -->
     <div
-      v-else-if="empresasFiltradas.length === 0"
+      v-else-if="!isLoading && empresasFiltradas.length === 0 && searchQuery"
       class="alert alert-warning d-flex align-items-center"
       role="alert"
     >

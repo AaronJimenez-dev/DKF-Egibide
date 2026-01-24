@@ -69,18 +69,14 @@ const volver = () => {
   <div class="container mt-4">
     <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
+      <div class="spinner-border" style="color: #81045f;" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
-      <p class="mt-3 text-muted">Cargando información de la empresa...</p>
+      <p class="mt-3 text-muted fw-semibold">Cargando información de la empresa...</p>
     </div>
 
     <!-- Error -->
-    <div
-      v-else-if="error"
-      class="alert alert-danger d-flex align-items-center"
-      role="alert"
-    >
+    <div v-else-if="error" class="alert alert-danger d-flex align-items-center" role="alert">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
       <div>
         {{ error }}
@@ -91,11 +87,14 @@ const volver = () => {
     </div>
 
     <!-- Sin empresa -->
-    <div v-else-if="!empresa" class="alert alert-warning">
-      No se encontró información de la empresa
-      <button class="btn btn-sm btn-outline-warning ms-3" @click="volver">
-        Volver
-      </button>
+    <div v-else-if="!empresa" class="alert alert-warning d-flex align-items-center">
+      <i class="bi bi-building-x me-2"></i>
+      <div>
+        No se encontró información de la empresa
+        <button class="btn btn-sm btn-outline-warning ms-3" @click="volver">
+          Volver
+        </button>
+      </div>
     </div>
 
     <!-- Contenido principal -->

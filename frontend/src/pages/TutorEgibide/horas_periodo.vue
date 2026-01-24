@@ -61,14 +61,23 @@ const guardarHorario = async () => {
   />
 
   <div class="container mt-4">
+    <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-3 text-muted">Cargando datos del alumno...</p>
+      <div class="spinner-border" style="color: #81045f;" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted fw-semibold">Cargando información del alumno...</p>
     </div>
 
+    <!-- Alumno no encontrado -->
     <div v-else-if="!alumno" class="alert alert-danger d-flex align-items-center">
-      <div>Alumno no encontrado</div>
-      <button class="btn btn-sm btn-outline-danger ms-3" @click="volver">Volver</button>
+      <i class="bi bi-person-x-fill me-2"></i>
+      <div>
+        Alumno no encontrado
+        <button class="btn btn-sm btn-outline-danger ms-3" @click="volver">
+          Volver
+        </button>
+      </div>
     </div>
 
     <div v-else>

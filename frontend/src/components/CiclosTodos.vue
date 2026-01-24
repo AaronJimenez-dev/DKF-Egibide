@@ -62,15 +62,15 @@ const verDetalleCiclo = (cicloId: number) => {
 
     <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
+      <div class="spinner-border" style="color: #81045f;" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
-      <p class="mt-3 text-muted">Cargando ciclos...</p>
+      <p class="mt-3 text-muted fw-semibold">Cargando ciclos...</p>
     </div>
 
-    <!-- Sin ciclos -->
+    <!-- Sin ciclos registrados -->
     <div
-      v-else-if="ciclos.length === 0"
+      v-else-if="!isLoading && ciclos.length === 0"
       class="alert alert-info d-flex align-items-center"
       role="alert"
     >
@@ -78,15 +78,16 @@ const verDetalleCiclo = (cicloId: number) => {
       <div>No hay ciclos registrados.</div>
     </div>
 
-    <!-- Sin resultados -->
+    <!-- Sin resultados de búsqueda -->
     <div
-      v-else-if="ciclosFiltrados.length === 0"
+      v-else-if="!isLoading && ciclosFiltrados.length === 0 && searchQuery"
       class="alert alert-warning d-flex align-items-center"
       role="alert"
     >
       <i class="bi bi-search me-2"></i>
       <div>No se encontraron ciclos con "{{ searchQuery }}"</div>
     </div>
+
 
     <!-- Lista -->
     <div v-else class="list-group list-group-flush">

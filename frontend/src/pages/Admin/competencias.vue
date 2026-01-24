@@ -66,20 +66,28 @@ const competenciasTransversales = computed(() =>
 
     <!-- Loading -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-3 text-muted">Cargando competencias...</p>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted fw-semibold">Cargando competencias disponibles...</p>
     </div>
 
     <!-- Sin competencias -->
-    <div v-else-if="competenciasStore.competencias.length === 0" class="alert alert-info d-flex align-items-center">
+    <div
+      v-else-if="competenciasStore.competencias.length === 0"
+      class="alert alert-info d-flex align-items-center"
+    >
       <i class="bi bi-info-circle-fill me-2"></i>
-      <div>No hay competencias registradas.</div>
+      <div>No hay competencias registradas en el sistema.</div>
     </div>
 
     <!-- Sin resultados -->
-    <div v-else-if="competenciasFiltradas.length === 0" class="alert alert-warning d-flex align-items-center">
+    <div
+      v-else-if="competenciasFiltradas.length === 0"
+      class="alert alert-warning d-flex align-items-center"
+    >
       <i class="bi bi-search me-2"></i>
-      <div>No se encontraron competencias con "{{ searchQuery }}"</div>
+      <div>No se encontraron competencias que coincidan con "{{ searchQuery }}"</div>
     </div>
 
     <!-- Listado estático -->

@@ -51,18 +51,14 @@ const volverAlumnos = () => {
   <div class="container mt-4">
     <!-- Estado de carga -->
     <div v-if="isLoading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
+      <div class="spinner-border" style="color: #81045f;" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
-      <p class="mt-3 text-muted">Cargando competencias del alumno...</p>
+      <p class="mt-3 text-muted fw-semibold">Cargando competencias y datos del alumno...</p>
     </div>
 
     <!-- Error -->
-    <div
-      v-else-if="error"
-      class="alert alert-danger d-flex align-items-center"
-      role="alert"
-    >
+    <div v-else-if="error" class="alert alert-danger d-flex align-items-center" role="alert">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
       <div>
         {{ error }}
@@ -73,11 +69,14 @@ const volverAlumnos = () => {
     </div>
 
     <!-- Sin alumno -->
-    <div v-else-if="!alumno" class="alert alert-warning">
-      No se encontró conpetencias del alumno
-      <button class="btn btn-sm btn-outline-warning ms-3" @click="volver">
-        Volver
-      </button>
+    <div v-else-if="!alumno" class="alert alert-warning d-flex align-items-center">
+      <i class="bi bi-person-x-fill me-2"></i>
+      <div>
+        No se encontró información del alumno
+        <button class="btn btn-sm btn-outline-warning ms-3" @click="volver">
+          Volver
+        </button>
+      </div>
     </div>
 
     <!-- Contenido principal -->
