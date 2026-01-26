@@ -210,6 +210,7 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
     fetchAlumnosAsignados,
     fetchEmpresasAsignadas,
     guardarHorarioAlumno,
+    updateAlumnoEmpresa,
     setMessage,
   };
 });
