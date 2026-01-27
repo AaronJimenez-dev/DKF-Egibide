@@ -146,6 +146,7 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
+	  Accept: "application/json",
         },
         body: JSON.stringify(payload),
       });

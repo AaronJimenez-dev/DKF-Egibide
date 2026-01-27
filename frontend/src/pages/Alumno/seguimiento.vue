@@ -8,6 +8,8 @@ const alumnosStore = useAlumnosStore();
 const file = ref<File | null>(null);
 const subiendo = ref(false);
   
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const fileError = ref<string | null>(null);
 
 onMounted(() => {
@@ -78,7 +80,7 @@ function formatDate(fecha: string) {
 }
 
 function urlArchivo(id: number) {
-  return `http://localhost:8000/api/entregas/${id}/archivo?token=${authStore.token}`;
+  return `${baseURL}/api/entregas/${id}/archivo?token=${authStore.token}`;
 }
 
 function descargar(id: number) {

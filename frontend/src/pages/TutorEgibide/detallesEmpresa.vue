@@ -39,7 +39,7 @@ const cargarDetalleEmpresa = async () => {
 
   try {
     const response = await fetch(
-      `http://${baseURL}/api/tutorEgibide/empresa/${empresaId}`,
+      `${baseURL}/api/tutorEgibide/empresa/${empresaId}`,
       {
         headers: {
           Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
