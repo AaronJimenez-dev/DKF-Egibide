@@ -24,6 +24,8 @@ const empresa = ref<EmpresaDetalle | null>(null);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const empresaId = Number(route.params.empresaId);
 
 onMounted(async () => {
@@ -42,7 +44,7 @@ const cargarDetalleEmpresa = async () => {
     }
 
     const response = await fetch(
-      `http://localhost:8000/api/admin/empresas/${empresaId}`,
+      `${baseURL}/api/admin/empresas/${empresaId}`,
       {
         headers: {
           Authorization: authStore.token ? `Bearer ${authStore.token}` : "",
