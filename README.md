@@ -5,6 +5,25 @@ Facilita la coordinación entre **alumnado, empresas y profesorado**, ofreciendo
 
 ---
 
+## 🚀 Despliegue y acceso a la aplicación
+
+La aplicación se encuentra desplegada y accesible en el siguiente entorno:
+
+- **URL:** http://172.20.228.41:5173
+
+### 🔐 Credenciales de acceso (usuarios de prueba)
+
+| Rol | Email | Contraseña |
+|-----|-------|------------|
+| **Administrador** | admin@demo.com | admin |
+| **Tutor Egibide** | danel.tutor@demo.com | password |
+| **Tutor Empresa** | eneko.empresa@demo.com | password |
+| **Alumno** | iker@demo.com | password |
+
+Estas credenciales permiten probar las distintas funcionalidades según el **rol asignado**, simulando el uso real de la plataforma en el contexto de la Formación Dual.
+
+---
+
 ## 🖥️ Tecnologías utilizadas
 
 ### Desarrollo
@@ -54,7 +73,7 @@ El proyecto sigue la **identidad visual institucional de Egibide**, priorizando:
 
 ---
 
-## 🚀 Objetivo del proyecto
+## 🏁 Objetivo del proyecto
 
 Mejorar la **gestión, trazabilidad y evaluación** de la Formación Dual mediante una herramienta:
 
