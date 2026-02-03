@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://172.20.228.41', 'http://172.20.228.41:80', 'http://172.20.228.41:8000', 'http://localhost:5173'],
+    'allowed_origins' => ['http://192.168.50.39', 'http://192.168.50.39:80'],
 
-    'allowed_origins_patterns' => ['/^http:\/\/172\.20\.228\.41(:[0-9]+)?$/',],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 

@@ -1,24 +1,31 @@
-# Build
+# Build de múltiples etapas para Vue.js
+
+# Etapa 1: Compilar Vue
 FROM node:20-alpine AS build
 
 WORKDIR /app
 
-COPY ../../frontend/package*.json ./
+# Copiar package.json del frontend
+COPY package*.json ./
+
+# Instalar dependencias
 RUN npm ci
 
-COPY ../../frontend/ .
+# Copiar código fuente
+COPY . ./
 
-ARG VITE_API_BASE_URL
-ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+# Variable de entorno para la api
+ENV VITE_API_BASE_URL=""
 
+# Build para producción
 RUN npm run build
 
-# Servir web compilada
-FROM httpd:2.4-alpine
+# Etapa 2: Servidor Nginx
+FROM nginx:alpine
 
-RUN sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /usr/local/apache2/conf/httpd.conf
-
-COPY --from=build /app/dist /usr/local/apache2/htdocs/
-COPY docker/frontend/custom-vhost.conf /usr/local/apache2/conf.d/custom-vhost.conf
+# Copiar archivos compilados
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
