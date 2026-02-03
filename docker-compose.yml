@@ -32,8 +32,8 @@ services:
   # Backend - Laravel con PHP-FPM
   backend:
     build:
-      context: ./backend
-      dockerfile: ../docker/backend/Dockerfile
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
     expose:
       - "9000"
     container_name: dkf-backend

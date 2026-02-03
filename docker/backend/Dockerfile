@@ -31,7 +31,7 @@ RUN docker-php-ext-install \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copiar código Laravel
-COPY . ./
+COPY ./backend /var/www/html
 
 # Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader --no-interaction
@@ -40,6 +40,10 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 9000
+# Script inicial que ejecuta las migraciones y los seeders.
+COPY ./docker/backend/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 9000
