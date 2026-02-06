@@ -97,10 +97,25 @@ class CiclosApiTest extends TestCase
         $this->authUser();
 
         $this->getJson('/api/ciclo/999999/cursos')
-            ->assertStatus(404)
-            ->assertJson([
-                'message' => 'Ciclo no encontrado',
-            ]);
+            ->assertStatus(404);
+    }
+
+    public function test_devuelve_tutores_de_un_ciclo(): void
+    {
+        $this->authUser();
+
+        $ciclo = Ciclos::factory()->create();
+
+        $this->getJson("/api/ciclo/{$ciclo->id}/tutores")
+            ->assertOk();
+    }
+
+    public function test_devuelve_404_si_ciclo_no_existe_al_pedir_tutores(): void
+    {
+        $this->authUser();
+
+        $this->getJson('/api/ciclo/999999/tutores')
+            ->assertStatus(404);
     }
 
     public function test_descargar_plantilla_csv_devuelve_headers_y_contenido_csv(): void

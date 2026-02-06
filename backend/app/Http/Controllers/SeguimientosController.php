@@ -110,7 +110,7 @@ class SeguimientosController extends Controller
             'estancia_id' => $estancia->id,
         ]);
 
-        return response()->json(['message' => 'Seguimiento creado', 'seguimiento' => $seguimiento]);
+        return response()->json(['message' => 'Seguimiento creado', 'seguimiento' => $seguimiento], 201);
     }
 
 }

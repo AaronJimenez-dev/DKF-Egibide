@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Estancia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Alumnos extends Model {
+
+    use HasFactory;
+
     protected $fillable = [
         'nombre',
         'apellidos',
