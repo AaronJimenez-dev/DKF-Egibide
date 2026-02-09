@@ -55,6 +55,7 @@ class AlumnosController extends Controller {
             'ciudad' => $validated['ciudad'],
             'telefono' => $validated['telefono'],
             'user_id' => $user->id,
+            'curso_id' => $validated['curso'],
         ]);
 
         // ESTANCIA
