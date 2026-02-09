@@ -8,9 +8,9 @@ const tutorId = authStore.currentUser.id;
 </script>
 
 <template>
-  <h2>Mis Empresas</h2>
+  <h2>Todas las Empresas</h2>
   <hr />
-  <EmpresasAsignadas :tutorId="tutorId.toString()" />
+  <EmpresasAsignadas :tutorId="tutorId.toString()" :mostrarTodas="true" />
 </template>
 
 <style scoped></style>

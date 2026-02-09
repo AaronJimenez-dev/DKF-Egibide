@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import type { Empresa } from "@/interfaces/Empresa";
 import { useTutorEgibideStore } from "@/stores/tutorEgibide";
+import { useEmpresasStore } from "@/stores/empresas";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps<{
   tutorId: string;
+  mostrarTodas?: boolean;
 }>();
 
 const router = useRouter();
 const tutorEgibideStore = useTutorEgibideStore();
+const empresasStore = useEmpresasStore();
 
 const empresasAsignadas = ref<Empresa[]>([]);
 const isLoading = ref(true);
@@ -32,8 +35,13 @@ const empresasFiltradas = computed(() => {
 
 onMounted(async () => {
   try {
-    await tutorEgibideStore.fetchEmpresasAsignadas(props.tutorId);
-    empresasAsignadas.value = tutorEgibideStore.empresasAsignadas;
+    if (props.mostrarTodas) {
+      await empresasStore.fetchEmpresas();
+      empresasAsignadas.value = empresasStore.empresas;
+    } else {
+      await tutorEgibideStore.fetchEmpresasAsignadas(props.tutorId);
+      empresasAsignadas.value = tutorEgibideStore.empresasAsignadas;
+    }
   } catch (error) {
     console.error("Error al cargar empresas:", error);
   } finally {
@@ -72,7 +80,9 @@ const verDetalleEmpresa = (empresaId: number) => {
       <div class="spinner-border" style="color: #81045f;" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
-      <p class="mt-3 text-muted fw-semibold">Cargando empresas asignadas...</p>
+      <p class="mt-3 text-muted fw-semibold">{{
+        mostrarTodas ? "Cargando empresas..." : "Cargando empresas asignadas..."
+      }}</p>
     </div>
 
     <!-- Sin empresas asignadas -->
@@ -82,7 +92,7 @@ const verDetalleEmpresa = (empresaId: number) => {
       role="alert"
     >
       <i class="bi bi-info-circle-fill me-2"></i>
-      <div>No tienes empresas asignadas actualmente.</div>
+      <div>{{ mostrarTodas ? "No hay empresas disponibles." : "No tienes empresas asignadas actualmente." }}</div>
     </div>
 
     <!-- Sin resultados de búsqueda -->
