@@ -280,7 +280,12 @@ const formatDate = (dateString: string) => {
               <div class="icon-wrapper mb-3">
                 <i class="bi bi-building-add display-4 text-success"></i>
               </div>
-              <h5 class="card-title">Asignar empresa</h5>
+              <h5 v-if="alumno.pivot?.empresa_id === null" class="card-title">
+                Asignar empresa
+              </h5>
+              <h5 v-else class="card-title">
+                Cambiar empresa
+              </h5>
               <div class="mt-3">
                 <i class="bi bi-arrow-right-circle"></i>
               </div>

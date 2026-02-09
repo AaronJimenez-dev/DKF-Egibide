@@ -188,8 +188,8 @@ function resetForms() {
         </div>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <button type="submit" class="btn btn-primary col-2">Agregar</button>
+    <div class="row">
+      <button type="submit" class="btn btn-primary col-2 ">Agregar</button>
     </div>
   </form>
 </template>
