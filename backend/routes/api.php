@@ -23,7 +23,8 @@ Route::middleware('auth:sanctum')->group(
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
-        Route::post('/importar-datos', [ImportacionController::class, 'upload']);
+        Route::post('/importar-alumnos', [ImportacionController::class, 'upload']);
+        Route::post('/importar-asignaciones', [ImportacionController::class, 'uploadAsignaciones']);
         // Familias Profesionales
         Route::get('/familiasProfesionales', [FamiliaProfesionalController::class, 'index']);
 

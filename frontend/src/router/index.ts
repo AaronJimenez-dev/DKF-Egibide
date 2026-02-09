@@ -333,6 +333,14 @@ const router = createRouter({
           meta: { role: "admin" },
         },
         {
+          path: "admin/importar",
+          name: "admin-importar",
+          components: {
+            main: () => import("@/pages/Admin/importar.vue"),
+          },
+          meta: { role: "admin" },
+        },
+        {
           path: "admin/alumnos/:alumnoId",
           name: "admin-detalle_alumno",
           components: {

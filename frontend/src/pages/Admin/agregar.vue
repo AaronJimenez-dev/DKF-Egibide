@@ -24,6 +24,10 @@
       <h4>Alumno</h4>
       <p>Agregar un nuevo alumno</p>
     </RouterLink>
+    <RouterLink to="/admin/importar" class="info-card">
+      <h4>Importar</h4>
+      <p>Importar datos </p>
+    </RouterLink>
   </div>
 </template>
 
