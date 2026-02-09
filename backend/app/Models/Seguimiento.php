@@ -2,28 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Seguimiento extends Model {
-  protected $table = 'seguimientos';
+class Seguimiento extends Model
+{
+    use HasFactory;
 
-  protected $fillable = [
-    'accion',
-    'fecha',
-    'descripcion',
-    'via',
-    'estancia_id',
-  ];
+    protected $table = 'seguimientos';
 
-  protected $casts = [
-    'fecha' => 'date',
-  ];
+    protected $fillable = [
+        'accion',
+        'fecha',
+        'descripcion',
+        'via',
+        'estancia_id',
+    ];
 
-  /**
-   * Get the estancia that owns this seguimiento
-   */
-  public function estancia(): BelongsTo {
-    return $this->belongsTo(Estancia::class);
-  }
+    protected $casts = [
+        'fecha' => 'date',
+    ];
+
+    public function estancia(): BelongsTo
+    {
+        return $this->belongsTo(Estancia::class, 'estancia_id');
+    }
 }
