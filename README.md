@@ -10,7 +10,10 @@ COSAS QUE HAY QUE HACER:
 - Crear entrega de cuaderno y que tenga fecha limite.
 - Paginacion de "Mis grados".
 
-
+ADMIN:
+- Añadir en el formulario de Ciclo el campo Código.
+- Crear RA
+- Borrar tabla Cursos
 
 # 🎓 Dual Kudeatzailea · Egibide
 
