@@ -94,12 +94,12 @@ const subirAsignaciones = async () => {
           accept=".xls, .xlsx"
         />
 
-        <button
+        <button v-if="archivoAlumnos"
           type="button"
           class="btn btn-primary"
           @click="subirAlumnos"
-          :disabled="!archivoAlumnos || isImportingAlumnos"
-        >
+
+          >
         <span
           v-if="isImportingAlumnos"
           class="spinner-border spinner-border-sm me-2"
@@ -122,12 +122,10 @@ const subirAsignaciones = async () => {
             accept=".csv"
           />
 
-          <button
+          <button v-if ="archivoAsignaciones"
             type="button"
             class="btn btn-primary"
-            @click="subirAsignaciones"
-            :disabled="!archivoAsignaciones || isImportingAsignaciones"
-          >
+            @click="subirAsignaciones"            >
             <span
               v-if="isImportingAsignaciones"
               class="spinner-border spinner-border-sm me-2"
