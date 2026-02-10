@@ -3,9 +3,7 @@
 
 COSAS QUE HAY QUE HACER:
 
-- Tutor de egibide asignarse varios alumnos a la vez.
 - Tutor de egibide ver todas las empresas y poder crear un instructor nuevo para esas empresas.
-- Tutor de egibide si un alumno ya tiene una empresa asignada que el texto no sea asignar empresa, sino cambiar de empresa.
 - Alumno quitar la vista mis datos, es redundante.
 - Hacer horario semanal(como lo teniamos en nuestri proyecto).
 
