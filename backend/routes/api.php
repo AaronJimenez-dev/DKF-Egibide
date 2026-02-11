@@ -14,7 +14,9 @@ use App\Http\Controllers\TutorEmpresaController;
 use App\Http\Controllers\SeguimientosController;
 use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ResultadosController;
 use App\Http\Controllers\ImportacionController;
+use App\Http\Controllers\AsignaturasController;
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::get('/entregas/{entrega}/archivo', [EntregaController::class, 'archivo']);
 
@@ -102,5 +104,12 @@ Route::middleware('auth:sanctum')->group(
         Route::get('admin/ciclos/{ciclo}', [CiclosController::class, 'show']);
         Route::get('admin/alumnos/{id}', [AdminController::class, 'detalleAlumno']);
         Route::get('/admin/empresas/{empresaId}', [AdminController::class, 'detalleEmpresa']);
+        
+        //RA
+        Route::get('/resultados', [ResultadosController::class, 'index']);
+        Route::post('/resultado', [ResultadosController::class, 'store']);
+
+        //Asignaturas
+        Route::get('/asignaturas', [AsignaturasController::class, 'index']);
     }
 );

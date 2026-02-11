@@ -28,6 +28,9 @@ class Asignatura extends Model {
   public function resultadosAprendizaje(): HasMany {
     return $this->hasMany(ResultadoAprendizaje::class);
   }
+  public function tutores(): HasMany {
+    return $this->belongsToMany(TutorEgibide::class, 'tutor_asignatura', 'asignatura_id', 'tutor_id')->withTimestamps();
+  }
 
   /**
    * Get all notas for this asignatura

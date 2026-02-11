@@ -15,7 +15,8 @@ class TutorEgibide extends Model {
         'apellidos',
         'telefono',
         'ciudad',
-        'user_id'
+        'user_id',
+        'alias'
     ];
 
     /**
@@ -24,8 +25,12 @@ class TutorEgibide extends Model {
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
-
-
+    public function asignaturas(){
+        return $this->belongsToMany(Asignatura::class,'tutor_asignatura','tutor_id','asignatura_id')->withTimestamps();
+    }
+    public function ciclos(){
+        return $this->belongsToMany(Ciclos::class,'ciclo_tutor','tutor_id','ciclo_id')->withTimestamps();
+    }
     public function cursos(){
         return $this->belongsToMany(Curso::class,'curso_tutor','tutor_id','curso_id');
     }

@@ -14,6 +14,11 @@
       <h4>Competencia</h4>
       <p>Agregar una nueva competencia</p>
     </RouterLink>
+     
+    <RouterLink to="/admin/nuevo-resultado" class="info-card">
+      <h4>Resultado de Aprendizaje</h4>
+      <p>Agregar un nuevo Resultado de Aprendizaje</p>
+    </RouterLink>
 
     <RouterLink to="/admin/nueva-empresa" class="info-card">
       <h4>Empresa</h4>

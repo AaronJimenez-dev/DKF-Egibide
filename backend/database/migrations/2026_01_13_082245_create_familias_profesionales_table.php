@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('familias_profesionales', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('codigo_familia', 30)->unique();
+            $table->string('codigo_familia', 30);
             $table->timestamps();
         });
     }

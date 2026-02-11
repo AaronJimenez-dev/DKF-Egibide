@@ -14,8 +14,6 @@ class AlumnoSeeder extends Seeder
         $userIker = DB::table('users')->where('email', 'iker@demo.com')->value('id');
         $userNaia = DB::table('users')->where('email', 'naia@demo.com')->value('id');
         $userPrueba = DB::table('users')->where('email', 'prueba@test.com')->value('id');
-
-        $cursoId = DB::table('cursos')->first()->id;
         $tutorId = DB::table('tutores')->first()->id;
 
         DB::table('alumnos')->insert([
@@ -27,7 +25,7 @@ class AlumnoSeeder extends Seeder
                 'matricula_id' => '2023-001',
                 'ciudad' => 'Vitoria-Gasteiz',
                 'user_id' => $userIker,
-                'curso_id' => $cursoId,
+                'grupo' => '191ZA',
                 'tutor_id' => $tutorId,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -40,7 +38,7 @@ class AlumnoSeeder extends Seeder
                 'matricula_id' => '2023-002',
                 'ciudad' => 'Vitoria-Gasteiz',
                 'user_id' => $userNaia,
-                'curso_id' => $cursoId,
+                'grupo' => '191ZA',
                 'tutor_id' => $tutorId,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -53,7 +51,7 @@ class AlumnoSeeder extends Seeder
                 'matricula_id' => '2023-003',
                 'ciudad' => 'Vitoria-Gasteiz',
                 'user_id' => $userPrueba,
-                'curso_id' => $cursoId,
+                'grupo' => '191ZA',
                 'tutor_id' => null,
                 'created_at' => now(),
                 'updated_at' => now(),

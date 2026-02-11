@@ -16,8 +16,10 @@ class Alumnos extends Model {
         'telefono',
         'ciudad',
         'user_id',
-        'curso_id',
-        'tutor_id'
+        'grupo',
+        'tutor_id',
+        'dni',
+        'matricula_id'
     ];
 
     /**

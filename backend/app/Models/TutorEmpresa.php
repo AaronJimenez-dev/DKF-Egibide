@@ -13,8 +13,7 @@ class TutorEmpresa extends Model {
         'telefono',
         'ciudad',
         'empresa_id',
-        'user_id',
-        'alias'
+        'user_id'
     ];
 
     public function empresa() {

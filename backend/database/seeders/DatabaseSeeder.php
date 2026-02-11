@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder {
             FamiliaProfesionalSeeder::class,
             CentroFamiliaProfesionalSeeder::class,
             CicloSeeder::class,
-            CursoSeeder::class,
+            // CursoSeeder::class,
 
             EmpresaSeeder::class,
 
             UserSeeder::class,
             TutorSeeder::class,
-            CursoTutorSeeder::class,
+            CicloTutorSeeder::class,
             InstructorSeeder::class,
             AlumnoSeeder::class,
 

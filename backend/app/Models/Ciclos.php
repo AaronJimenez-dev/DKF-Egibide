@@ -13,7 +13,7 @@ class Ciclos extends Model {
     protected $table = 'ciclos';
     protected $fillable = [
         'nombre',
-        'codigo',
+        'grupo',
         'familia_profesional_id'
     ];
 
@@ -46,7 +46,7 @@ class Ciclos extends Model {
     }
 
     public function tutores(){
-        return $this->belongsToMany(TutorEgibide::class,'ciclo_tutor','curso_id','tutor_id');
+        return $this->belongsToMany(TutorEgibide::class,'ciclo_tutor','ciclo_id','tutor_id')->whithTimestamps();
     }
 
     public function alumnos(){

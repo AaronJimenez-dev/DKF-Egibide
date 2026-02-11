@@ -79,7 +79,7 @@ export const useCiclosStore = defineStore("ciclos", () => {
     tutores.value = data as TutorEgibide[];
   }
 
-  async function createCiclo(nombre: string, familia_profesional_id: number) {
+  async function createCiclo(nombre: string, familia_profesional_id: number, codigo:string) {
     const response = await fetch(`${baseURL}/api/ciclos`, {
       method: "POST",
       headers: {
@@ -87,7 +87,7 @@ export const useCiclosStore = defineStore("ciclos", () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, familia_profesional_id }),
+      body: JSON.stringify({ nombre, familia_profesional_id, codigo }),
     });
 
     const data = await response.json();

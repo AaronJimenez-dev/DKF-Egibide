@@ -325,6 +325,14 @@ const router = createRouter({
           meta: { role: "admin" },
         },
         {
+          path: "admin/nuevo-resultado",
+          name: "admin-nuevo-resultado",
+          components:{ 
+            main: () => import("@/pages/Admin/añadir_resultado.vue"),
+          },
+          meta: { role: "admin" }
+        },
+        {
           path: "admin/nuevo-alumno",
           name: "admin-nuevo_alumno",
           components: {

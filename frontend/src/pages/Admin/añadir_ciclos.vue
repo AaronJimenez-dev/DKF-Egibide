@@ -9,13 +9,17 @@ const ciclosStore = useCiclosStore();
 
 const nombreCiclo = ref<string>("");
 const familiaProfesional = ref<number>(0);
-
+const codigoCiclo = ref<string>("");
+  
 onMounted(async () => {
   await familiaProfesionalStore.fetchFamiliasProfesionales();
 });
 
 function agregarCiclo() {
-  ciclosStore.createCiclo(nombreCiclo.value, familiaProfesional.value);
+  if(!/^[0-9]{3}[A-Z]{2}$/.test(codigoCiclo.value)){
+    alert("El codigo consta de 3 numeros y 2 letras en Mayúsculas")
+  }
+  ciclosStore.createCiclo(nombreCiclo.value, familiaProfesional.value, codigoCiclo.value);
 }
 </script>
 
@@ -29,14 +33,26 @@ function agregarCiclo() {
   />
   <form @submit.prevent="agregarCiclo" class="row-cols-1">
     <div class="mb-3 col-6">
-      <label for="ciclo" class="form-label">Nombre:</label>
+      <label for="nombre" class="form-label">Nombre:</label>
       <input
         type="text"
         class="form-control"
         placeholder="Desarrollo de aplicaciones web, Soldadura..."
         v-model="nombreCiclo"
-        aria-label="Ciclo"
-        id="ciclo"
+        aria-label="Nombre"
+        id="nombre"
+        required
+      />
+    </div>
+    <div class="mb-3 col-6">
+      <label for="codigo" class="form-label">Código:</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="142GA"
+        v-model="codigoCiclo"
+        aria-label="codigo"
+        id="codigo"
         required
       />
     </div>
