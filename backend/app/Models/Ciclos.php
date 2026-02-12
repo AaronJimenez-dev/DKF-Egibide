@@ -15,6 +15,9 @@ class Ciclos extends Model {
         'nombre',
         'codigo',
         'grupo',
+        'descripcion',
+        'modelo',
+        'regimen',
         'familia_profesional_id'
     ];
 

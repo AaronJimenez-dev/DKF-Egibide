@@ -8,6 +8,7 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const useResultadosStore = defineStore("resultado", () => {
   const resultados = ref<Resultado[]>([]);
+  const competencias = ref<any[]>([]); 
 
   const authStore = useAuthStore();
 
@@ -40,6 +41,22 @@ export const useResultadosStore = defineStore("resultado", () => {
     const data = await response.json();
     resultados.value = data as Resultado[];
   }
+  
+  async function fetchCompetencias(){
+    const response = await fetch(`${baseURL}/api/competencias`,{
+      method: "GET",
+      headers: authStore.token
+        ? {
+            Authorization: `Bearer ${authStore.token}`,
+            Accept: "application/json",
+          }
+        : {
+            Accept: "application/json",
+          },
+    });
+    const data = await response.json();
+    competencias.value = data;
+  }
   async function fetchResultados() {
     const response = await fetch(`${baseURL}/api/resultados`, {
       method: "GET",
@@ -58,7 +75,7 @@ export const useResultadosStore = defineStore("resultado", () => {
   }
 
 
-  async function createResultado(descripcion: string, id_asignatura: number) {
+  async function createResultado(descripcion: string, asignatura_id: number, competencias: number[] = []) {
     const response = await fetch(`${baseURL}/api/resultado`, {
       method: "POST",
       headers: {
@@ -66,7 +83,7 @@ export const useResultadosStore = defineStore("resultado", () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ descripcion, id_asignatura}),
+      body: JSON.stringify({ descripcion, asignatura_id, competencias_tecnicas: competencias }),
     });
 
     const data = await response.json();
@@ -85,9 +102,11 @@ export const useResultadosStore = defineStore("resultado", () => {
   return {
     resultados,
     message,
+    competencias,
     messageType,
     fetchResultados,
     fetchAsignaturas,
-    createResultado
+    createResultado,
+    fetchCompetencias
   };
 });

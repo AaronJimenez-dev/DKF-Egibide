@@ -27,7 +27,7 @@ class ResultadoAprendizaje extends Model {
   public function competenciasTec(): BelongsToMany {
     return $this->belongsToMany(
       CompetenciaTec::class,
-      'competencia_tec_ra',
+      'competencias_tec_ra',
       'resultado_aprendizaje_id',
       'competencia_tec_id'
     );
