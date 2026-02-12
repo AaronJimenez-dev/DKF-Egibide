@@ -13,11 +13,20 @@ class ResultadosController extends Controller
     public function store(Request $request){
         $validado = $request->validate([
             'descripcion' => ['required'],
-            'asignatura_id' =>['required']
+            'asignatura_id' =>['required'],
+            'competencias_tecnicas' => ['array', 'required']
         ]);
         $resultado = ResultadoAprendizaje::create([
             'descripcion' => $validado['descripcion'],
             'asignatura_id' => $validado['asignatura_id'],
-        ]); 
+       ]);
+
+        // Asociar competencias seleccionadas
+        $resultado->competenciasTec()->sync($request->input('competencias_tecnicas', []));
+
+        return response()->json([
+            'message' => 'Resultado creado con éxito',
+            'resultado' => $resultado
+        ], 201);
     }
 }

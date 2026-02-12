@@ -513,19 +513,27 @@ class ImportacionService {
                         // Obtener familia profesional por defecto
                         $familiaPorDefecto = DB::table('familias_profesionales')->first();
 
+
                         if (!$familiaPorDefecto) {
                             $error = "Fila " . ($index + 2) . ": No hay familias profesionales en la BD (DNI: $dni)";
                             Log::error($error);
                             $stats['errores'][] = $error;
                             continue;
                         }
+                        $descripcion = trim($row['Des_Grupo'] ?? "Ciclo $grupo");
+                        $modelo = trim($row['Modelo'] ?? 'Desconocido');
+                        $regimen = trim($row['Regimen'] ?? 'Desconocido');
 
                         try {
-                            Ciclos::create([
-                                'nombre' => "Ciclo $grupo", // Nombre genérico
-                                'familia_profesional_id' => $familiaPorDefecto->id,
-                                'grupo' => $grupo
+                           Ciclos::create([
+                            'nombre' => $descripcion, // ahora sí usa el valor correcto
+                            'familia_profesional_id' => $familiaPorDefecto->id,
+                            'grupo' => $grupo,
+                            'descripcion' =>  $descripcion,
+                            "modelo" => $modelo,
+                            "regimen" => $regimen
                             ]);
+
                             Log::info("✓ Ciclo creado: $grupo");
                         } catch (\Illuminate\Database\QueryException $e) {
                             // Si falla por duplicate key (otro proceso lo creó justo ahora), continuar
