@@ -91,7 +91,11 @@ const userId = computed(() => authStore.currentUser.id);
               Crear entrega cuaderno
             </RouterLink>
           </li>
-
+          <li>
+            <RouterLink to="/tutor-egibide/gestionar-grados" class="sidebar-item"
+              >Gestionar mis Grados</RouterLink
+            >
+          </li>
         </ul>
       </div>
     </nav>

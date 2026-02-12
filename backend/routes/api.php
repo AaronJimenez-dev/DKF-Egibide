@@ -92,7 +92,10 @@ Route::middleware('auth:sanctum')->group(
         Route::get('/me/tutor-egibide', [TutorEgibideController::class, 'me']);
         Route::post('/horasperiodo', [TutorEgibideController::class, 'horasperiodo']);
         Route::get('/horario/{alumnoId}', [TutorEgibideController::class, 'getHorarioAlumno']);
-
+        Route::get('/tutorEgibide/{tutorId}/cursos', [TutorEgibideController::class, 'getCursosByCurrentTutor']);
+        Route::get('/tutorEgibide/{tutorId}/ciclos/disponibles', [TutorEgibideController::class, 'getCiclosDisponibles']);
+Route::post('/tutorEgibide/{tutorId}/ciclos',            [TutorEgibideController::class, 'asignarCiclo']);
+Route::delete('/tutorEgibide/{tutorId}/ciclos/{cicloId}',[TutorEgibideController::class, 'desasignarCiclo']);
         // Tutor Empresa
         Route::get('/tutorEmpresa/inicio', [TutorEmpresaController::class, 'inicioInstructor']);
         Route::get('/tutorEmpresa/{tutorId}/alumnos', [TutorEmpresaController::class, 'getAlumnosByCurrentInstructor']);
