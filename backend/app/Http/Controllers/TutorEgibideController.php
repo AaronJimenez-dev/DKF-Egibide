@@ -423,4 +423,65 @@ class TutorEgibideController extends Controller
             ], 500);
         }
     }
+    public function getCursosByCurrentTutor(Request $request, $tutorId){
+        $tutor = TutorEgibide::find($tutorId);
+        if (!$tutor) {
+            return response()->json(['message' => 'Tutor no encontrado'], 404);
+        }
+        $cursos = Curso::whereHas('ciclo.tutores', function ($query) use ($tutorId) {
+            $query->where('tutores.id', $tutorId);
+        })->get();
+        return response()->json($cursos);
+    }
+    public function getCiclosDisponibles(Request $request, $tutorId)
+{
+    $tutor = TutorEgibide::find($tutorId);
+    if (!$tutor) {
+        return response()->json(['message' => 'Tutor no encontrado'], 404);
+    }
+
+    // IDs de los ciclos que ya tiene el tutor
+    $ciclosAsignados = $tutor->ciclos()->pluck('ciclos.id');
+
+    // Todos los ciclos excepto los que ya tiene
+    $disponibles = Ciclos::whereNotIn('id', $ciclosAsignados)->get();
+
+    return response()->json($disponibles);
+}
+
+
+public function asignarCiclo(Request $request, $tutorId)
+{
+    $request->validate([
+        'ciclo_id' => 'required|exists:ciclos,id',
+    ]);
+
+    $tutor = TutorEgibide::find($tutorId);
+    if (!$tutor) {
+        return response()->json(['message' => 'Tutor no encontrado'], 404);
+    }
+
+    $tutor->ciclos()->syncWithoutDetaching([$request->ciclo_id]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Ciclo asignado correctamente',
+    ]);
+}
+
+
+public function desasignarCiclo(Request $request, $tutorId, $cicloId)
+{
+    $tutor = TutorEgibide::find($tutorId);
+    if (!$tutor) {
+        return response()->json(['message' => 'Tutor no encontrado'], 404);
+    }
+
+    $tutor->ciclos()->detach($cicloId);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Ciclo desasignado correctamente',
+    ]);
+}
 }
