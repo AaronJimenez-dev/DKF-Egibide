@@ -9,7 +9,6 @@ class PruebaInicialSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1️⃣ Crear Ciclos
         DB::table('ciclos')->insert([
             [
                 'nombre' => 'Desarrollo de Aplicaciones Multiplataforma',
@@ -33,7 +32,6 @@ class PruebaInicialSeeder extends Seeder
             ],
         ]);
 
-        // 2️⃣ Crear Asignaturas
         DB::table('asignaturas')->insert([
             [
                 'codigo_asignatura' => 'DAM_M1',
@@ -65,7 +63,6 @@ class PruebaInicialSeeder extends Seeder
             ],
         ]);
 
-        // 3️⃣ Crear Competencias Técnicas
         DB::table('competencias_tec')->insert([
             // Competencias DAM
             [

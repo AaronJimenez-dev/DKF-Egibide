@@ -10,7 +10,7 @@ let asignatura_id = ref(null);        // Guardará el ID de la asignatura
 let filtroAsignatura = ref("");       // Input para filtrar nombres
 const competencias = ref([]);         // Todas las competencias de todos los ciclos
 const competenciasSeleccionadas = ref([]);
-
+const mostrarLista = ref(false);
 const asignaturas = ref([]);          // Todas las asignaturas
 
 // Cargar datos
@@ -25,9 +25,18 @@ onMounted(async () => {
 // Computed: filtrar competencias según la asignatura seleccionada
 const competenciasFiltradas = computed(() => {
   if (!asignatura_id.value) return [];
+  
   const asignatura = asignaturas.value.find(a => a.id === asignatura_id.value);
+  console.log("Asignatura seleccionada:", asignatura);
+  console.log("ciclo_id de la asignatura:", asignatura?.ciclo_id);
+  console.log("Todas las competencias:", competencias.value);
+  
   if (!asignatura) return [];
-  return competencias.value.filter(c => c.ciclo_id === asignatura.ciclo_id);
+  
+  const filtradas = competencias.value.filter(c => c.ciclo_id === asignatura.ciclo_id);
+  console.log("Competencias filtradas:", filtradas);
+  
+  return filtradas;
 });
 
 // Computed: filtrar asignaturas según el input
@@ -48,6 +57,7 @@ function seleccionarAsignatura(asig) {
   asignatura_id.value = asig.id;                    // Guardar ID
   filtroAsignatura.value = asig.nombre_asignatura; // Mostrar nombre
   competenciasSeleccionadas.value = [];            // Limpiar selección anterior
+  mostrarLista.value = false;
 }
 
 // Guardar resultado
@@ -68,6 +78,9 @@ function agregarResultado() {
   filtroAsignatura.value = "";
   asignatura_id.value = null;
   competenciasSeleccionadas.value = [];
+}
+function ocultarLista() {
+  setTimeout(() => mostrarLista.value = false, 150);
 }
 </script>
 
@@ -105,8 +118,10 @@ function agregarResultado() {
       v-model="filtroAsignatura"
       placeholder="Escribe para filtrar..."
       autocomplete="off"
+      @input="mostrarLista = true"
+      @blur="ocultarLista"
     />
-    <ul v-if="asignaturasFiltradas.length && filtroAsignatura" class="list-group position-absolute z-10 w-100">
+    <ul v-if="asignaturasFiltradas.length && filtroAsignatura && mostrarLista" class="list-group position-absolute z-10 w-100">
       <li
         v-for="asig in asignaturasFiltradas"
         :key="asig.id"

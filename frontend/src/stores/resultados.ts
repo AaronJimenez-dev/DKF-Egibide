@@ -8,6 +8,7 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const useResultadosStore = defineStore("resultado", () => {
   const resultados = ref<Resultado[]>([]);
+  const competencias = ref<any[]>([]); 
 
   const authStore = useAuthStore();
 
@@ -54,7 +55,7 @@ export const useResultadosStore = defineStore("resultado", () => {
           },
     });
     const data = await response.json();
-    resultados.value = data as Resultado[];
+    competencias.value = data;
   }
   async function fetchResultados() {
     const response = await fetch(`${baseURL}/api/resultados`, {
@@ -101,6 +102,7 @@ export const useResultadosStore = defineStore("resultado", () => {
   return {
     resultados,
     message,
+    competencias,
     messageType,
     fetchResultados,
     fetchAsignaturas,

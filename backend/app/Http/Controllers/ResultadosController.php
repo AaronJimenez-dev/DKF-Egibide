@@ -22,7 +22,7 @@ class ResultadosController extends Controller
        ]);
 
         // Asociar competencias seleccionadas
-        $resultado->competencias()->sync($request->input('competencias', []));
+        $resultado->competenciasTec()->sync($request->input('competencias_tecnicas', []));
 
         return response()->json([
             'message' => 'Resultado creado con éxito',
