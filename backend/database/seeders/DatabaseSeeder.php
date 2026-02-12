@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder {
             AsignaturaSeeder::class,
             ResultadosAprendizajeSeeder::class,
             CompetenciaTransSeeder::class,
-            CompetenciaTecSeeder::class,
             CompetenciasTecRaSeeder::class,
 
             EstanciaSeeder::class,

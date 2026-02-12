@@ -19,6 +19,20 @@
       <h4>Empresas</h4>
       <p>Ver empresas colaboradoras</p>
     </RouterLink>
+    <RouterLink
+      to="/tutor-egibide/grados"
+      class="info-card"
+    >
+      <h4>Ciclos</h4>
+      <p>Ver ciclos asignados</p>
+    </RouterLink>
+    <RouterLink
+      to="/tutor-egibide/gestionar-grados"
+      class="info-card"
+    >
+      <h4>Gestionar Ciclos</h4>
+      <p>Gestion de asignacion de ciclos</p>
+    </RouterLink>
   </div>
 </template>
 

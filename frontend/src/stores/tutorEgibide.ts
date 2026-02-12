@@ -101,6 +101,25 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
   }
 
   //Traer grados con alumnos sin tutor asignado
+  async function fetchMisgrados(tutorId: string) {
+    loading.value = true;
+    try {
+      const response = await fetch(`${baseURL}/api/tutorEgibide/${tutorId}/cursos`, { 
+        headers: {
+          Authorization: authStore.token ? `Bearer ${authStore.token}` : "", Accept: "application/json",
+          }, 
+          },); 
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Error desconocido al cargar cursos", "error");
+        return false;
+      }
+      }catch (err) {
+        console.error(err);
+        setMessage("Error de conexión al obtener cursos", "error");
+        return false;
+      }
+    }
   async function fetchAlumnosDeMiCursoSinTutorAsignado(tutorId: string) {
     loading.value = true;
     try {
@@ -289,6 +308,7 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
 
 
 
+
   async function updateAlumnoEmpresa(alumnoId: number, empresaId: number) {
     const alumnoToUpdate = alumnosAsignados.value.find(
       (a) => a.id === alumnoId,
@@ -320,6 +340,7 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
     inicio,
     loadingInicio,
     fetchInicioTutor,
+    fetchMisgrados,
     fetchAlumnosAsignados,
     fetchEmpresasAsignadas,
     guardarHorarioAlumno,
@@ -329,4 +350,5 @@ export const useTutorEgibideStore = defineStore("tutorEgibide", () => {
     fetchAlumnosDeMiCursoSinTutorAsignado,
     asignarAlumnoATutor,
   };
+
 });
